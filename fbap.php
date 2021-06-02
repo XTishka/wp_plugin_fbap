@@ -32,37 +32,32 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
- * Rename this for your plugin and update it as you release new versions.
  */
 define( 'PLUGIN_NAME_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-plugin-name-activator.php
  */
-function activate_plugin_name() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name-activator.php';
+function activate_fbap() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-fbap-activator.php';
 	Plugin_Name_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-plugin-name-deactivator.php
  */
-function deactivate_plugin_name() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name-deactivator.php';
+function deactivate_fbap() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-fbap-deactivator.php';
 	Plugin_Name_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_plugin_name' );
-register_deactivation_hook( __FILE__, 'deactivate_plugin_name' );
+register_activation_hook( __FILE__, 'activate_fbap' );
+register_deactivation_hook( __FILE__, 'deactivate_fbap' );
 
 /**
  * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-fbap.php';
 
 /**
  * Begins execution of the plugin.
@@ -73,10 +68,49 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name.php';
  *
  * @since    1.0.0
  */
-function run_plugin_name() {
+function run_fbap() {
 
-	$plugin = new Plugin_Name();
+	$plugin = new FBAP();
 	$plugin->run();
 
 }
-run_plugin_name();
+run_fbap();
+
+
+add_action('admin_menu', 'test_plugin_setup_menu');
+
+function test_plugin_setup_menu(){
+    add_menu_page(
+        'Crowler',
+        'FB publisher',
+        'manage_options',
+        'fbap-crawler',
+        'crowler_init'
+    );
+}
+
+
+function crowler_init(){
+    echo "<h1>Crowler init!</h1>";
+}
+
+add_action('admin_menu', 'register_my_custom_submenu_page');
+
+function register_my_custom_submenu_page() {
+    add_submenu_page(
+        'fbap-crawler',
+        'Дополнительная страница инструментов',
+        'Название инструмента',
+        'manage_options',
+        'my-custom-submenu-page',
+        'my_custom_submenu_page_callback'
+    );
+}
+
+function my_custom_submenu_page_callback() {
+    // контент страницы
+    echo '<div class="wrap">';
+    echo '<h2>'. get_admin_page_title() .'</h2>';
+    echo '</div>';
+
+}

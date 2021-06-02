@@ -3,11 +3,11 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       http://example.com
+ * @link       https://github.com/XTishka/wp_plugin_fbap
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    FBAP
+ * @subpackage FBAP/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    FBAP
+ * @subpackage FBAP/includes
+ * @author     Takhir Berdyiev <takhir.berdyiev@gmail.com>
  */
-class Plugin_Name_Loader {
+class FBAP_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.
