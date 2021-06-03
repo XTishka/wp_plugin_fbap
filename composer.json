@@ -1,5 +1,0 @@
-{
-    "require": {
-        "laminas/laminas-dom": "^2.8"
-    }
-}

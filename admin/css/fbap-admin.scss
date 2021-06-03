@@ -1,0 +1,55 @@
+.color-green {
+  color: green;
+}
+.block {
+  display: block;
+}
+.flex {
+  display: flex;
+}
+.w-full {
+  width: 100%;
+}
+.w-50p {
+  width: 50%;
+}
+.justify-center {
+  justify-content: center;
+}
+
+.preview-wrap {
+  padding: 0 30px;
+  .preview-box {
+    max-width: 500px;
+    background: #ffffff;
+    .header {
+      display: flex;
+      padding: 16px 16px 0 16px;
+      align-items: center;
+      .fbap-logo {
+        img {
+          width: 40px;
+        }
+      }
+      .fbap-title {
+        margin-left: 10px;
+        h4 {
+          line-height: 1em;
+          margin-top: 0;
+          margin-bottom: 5px;
+        }
+        p {
+          line-height: 1em;
+          padding: 0;
+          margin: 0;
+        }
+      }
+    }
+    h2 {
+      padding: 0 16px;
+    }
+    p {
+      padding: 0 16px;
+    }
+  }
+}

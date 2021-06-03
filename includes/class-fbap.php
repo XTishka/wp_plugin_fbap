@@ -109,12 +109,31 @@ class FBAP {
 		/**
          * Laminas-Dom :: html parser
          */
+//		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/autoload.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/autoload.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin.php';
+
+		/**
+		 * Admin menu and pages
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/AffiliateAds.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/fbap-admin-menu.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_index.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_create.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_update.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_partners_index.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_partners_create.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_partners_update.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_groups_index.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_groups_create.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_groups_update.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_settings.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -153,6 +172,7 @@ class FBAP {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_fbap_menu', $plugin_admin, 'admin_menu' );
 
 	}
 
@@ -211,5 +231,6 @@ class FBAP {
 	public function get_version() {
 		return $this->version;
 	}
-
 }
+
+

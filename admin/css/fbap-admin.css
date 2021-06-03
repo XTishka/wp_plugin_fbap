@@ -1,4 +1,60 @@
-/**
- * All of the CSS for your admin-specific functionality should be
- * included in this file.
- */
+.color-green {
+  color: green;
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-50p {
+  width: 50%;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.preview-wrap {
+  padding: 0 30px;
+}
+.preview-wrap .preview-box {
+  max-width: 500px;
+  background: #ffffff;
+}
+.preview-wrap .preview-box .header {
+  display: flex;
+  padding: 16px 16px 0 16px;
+  align-items: center;
+}
+.preview-wrap .preview-box .header .fbap-logo img {
+  width: 40px;
+}
+.preview-wrap .preview-box .header .fbap-title {
+  margin-left: 10px;
+}
+.preview-wrap .preview-box .header .fbap-title h4 {
+  line-height: 1em;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.preview-wrap .preview-box .header .fbap-title p {
+  line-height: 1em;
+  padding: 0;
+  margin: 0;
+}
+.preview-wrap .preview-box h2 {
+  padding: 0 16px;
+}
+.preview-wrap .preview-box p {
+  padding: 0 16px;
+}
+
+/*# sourceMappingURL=fbap-admin.css.map */
