@@ -22,6 +22,14 @@
   justify-content: center;
 }
 
+.list-disc {
+  list-style-type: disc;
+}
+
+.m-4 {
+  margin: 1rem;
+}
+
 .preview-wrap {
   padding: 0 30px;
 }

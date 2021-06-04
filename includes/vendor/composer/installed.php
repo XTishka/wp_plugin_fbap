@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '9c29c28e6d19dcd1de4072af41c5aff8869125c8',
+    'reference' => '891274b062ff2168f90fcc37f5b6b9731540aa67',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '9c29c28e6d19dcd1de4072af41c5aff8869125c8',
+      'reference' => '891274b062ff2168f90fcc37f5b6b9731540aa67',
     ),
     'guzzlehttp/guzzle' => 
     array (
@@ -141,6 +141,15 @@
       array (
         0 => '1.0',
       ),
+    ),
+    'rakit/validation' => 
+    array (
+      'pretty_version' => 'v1.4.0',
+      'version' => '1.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ff003a35cdf5030a5f2482299f4c93f344a35b29',
     ),
     'ralouphie/getallheaders' => 
     array (

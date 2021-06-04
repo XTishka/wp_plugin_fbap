@@ -123,6 +123,13 @@ class FBAP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/AffiliateAds.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/fbap-admin-menu.php';
 
+		// Form handlers
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/partnerFormsHandlers.php';
+
+		// Form validators
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/partnerFormValidators.php';
+
+		// Tab pages
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_index.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_create.php';
@@ -173,7 +180,6 @@ class FBAP {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_fbap_menu', $plugin_admin, 'admin_menu' );
-
 	}
 
 	/**

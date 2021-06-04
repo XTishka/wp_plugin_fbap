@@ -30,7 +30,13 @@ class Plugin_Name_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		drop_plugin_tables('fbap_partners');
 	}
+}
 
+function drop_plugin_tables($table) {
+	global $wpdb;
+	global $table_prefix, $wpdb;
+	$dropTable = $table_prefix . $table;
+	$wpdb->query( "DROP TABLE IF EXISTS $dropTable" );
 }

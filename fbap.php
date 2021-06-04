@@ -40,7 +40,7 @@ define( 'PLUGIN_NAME_VERSION', '1.0.0' );
  */
 function activate_fbap() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-fbap-activator.php';
-	Plugin_Name_Activator::activate();
+	FBAP_Activator::activate();
 }
 
 /**
@@ -76,12 +76,7 @@ function run_fbap() {
 }
 run_fbap();
 
-
-
-
-
-
-
+// ---------------------------------------------------------------------------------------------------------------------
 
 add_action('admin_menu', 'my_plugin_create_menu');
 

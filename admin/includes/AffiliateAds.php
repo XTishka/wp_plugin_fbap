@@ -20,7 +20,9 @@ class AffiliateAds {
 	 * Get ads list
 	 */
 	public function index( $type ) {
-		echo $type;
+		if ( $type == 'partner' ) {
+			affiliate_partners_index($this->getAllParners('fbap_partners'));
+		}
 	}
 
 	/**
@@ -37,6 +39,20 @@ class AffiliateAds {
 				$data['parser']    = $this->parse( $url );
 			}
 			affiliate_ads_create( $data );
+		}
+
+		if ( $type == 'partner' ) {
+			if ($_POST) {
+				$validation = validateNewPartner($_POST);
+				if ( $validation->fails() ) {
+					affiliate_partners_create($_POST, $validation->errors());
+				} else {
+					createPartnerFormHandler($_POST);
+					affiliate_partners_index($this->getAllParners('fbap_partners'));
+				}
+			} else {
+				affiliate_partners_create($_POST);
+			}
 		}
 	}
 
@@ -91,23 +107,30 @@ class AffiliateAds {
 	}
 
 	public function getHeader( $tab ) {
-		switch ( $tab ) {
-			case 'partners':
-				$pageTitle  = 'Affiliate partners';
-				$addNewLink = '?page=fbap-affiliate-ads&tab=new-partner';
-				break;
-			case 'groups':
-				$pageTitle  = 'Facebook groups';
-				$addNewLink = '?page=fbap-affiliate-ads&tab=new-group';
-				break;
-			case 'settings':
-				$pageTitle  = 'Settings';
-				$addNewLink = false;
-				break;
-			default:
-				$pageTitle  = 'Affiliate ads';
-				$addNewLink = '?page=fbap-affiliate-ads&tab=new-ad';
+
+		$pageTitle  = 'Settings';
+		$addNewLink = false;
+
+		if ($tab == 'ads' or $tab == 'new-ad') {
+			$pageTitle  = 'Affiliate ads';
+			$addNewLink = '?page=fbap-affiliate-ads&tab=new-ad';
 		}
+
+		if ($tab == 'partners' or $tab == 'new-partner') {
+			$pageTitle  = 'Affiliate partners';
+			$addNewLink = '?page=fbap-affiliate-ads&tab=new-partner';
+		}
+
+		if ($tab == 'groups' or $tab == 'new-group') {
+			$pageTitle  = 'Facebook groups';
+			$addNewLink = '?page=fbap-affiliate-ads&tab=new-group';
+		}
+
+		if ($tab == 'settings') {
+			$pageTitle  = 'Settings';
+			$addNewLink = false;
+		}
+
 		$html = '<h1 class="wp-heading-inline">';
 		$html .= $pageTitle;
 		$html .= '</h1>';
@@ -142,5 +165,15 @@ class AffiliateAds {
 			default:
 				$this->index( 'ads' );
 		}
+	}
+2
+	private function getAllParners($table) {
+		global $wpdb;
+		global $table_prefix, $wpdb;
+
+		$table  = $table_prefix . $table;
+		$result = $wpdb->get_results( "SELECT * FROM $table WHERE `soft_delete` = 0 ORDER BY `id` DESC " );
+
+		return $result;
 	}
 }
