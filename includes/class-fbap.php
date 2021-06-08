@@ -120,27 +120,28 @@ class FBAP {
 		/**
 		 * Admin menu and pages
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/AffiliateAds.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/fbap-admin-menu.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/admin-menu.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/tabs.php';
 
-		// Form handlers
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/partnerFormsHandlers.php';
+		// Controllers
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/controllers/AdController.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/controllers/PartnerController.php';
 
-		// Form validators
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/includes/partnerFormValidators.php';
+		// Repositories
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/PartnerRepository.php';
+
+		// Validators
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/validators/PartnerValidator.php';
 
 		// Tab pages
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_index.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_create.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_update.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_partners_index.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_partners_create.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_partners_update.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_groups_index.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_groups_create.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_groups_update.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/affiliate_ads_settings.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/main.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/ads/index.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/ads/create.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/ads/update.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/partners/index.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/partners/create.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/partners/update.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/partners/delete.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -176,10 +177,7 @@ class FBAP {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new FBAP_Admin( $this->get_plugin_name(), $this->get_version() );
-
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_fbap_menu', $plugin_admin, 'admin_menu' );
 	}
 
 	/**

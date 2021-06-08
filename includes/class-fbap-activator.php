@@ -59,7 +59,6 @@ function init_db_partners() {
 		  created_at datetime NOT NULL,
 		  updated_at datetime NOT NULL,
 		  deleted_at datetime NULL,
-		  soft_delete tinyint(1) DEFAULT 0 NOT NULL,
 		  PRIMARY KEY  (id)
 		) $charset_collate;";
 

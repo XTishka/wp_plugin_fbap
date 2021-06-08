@@ -1,49 +1,57 @@
-.color-green {
-  color: green;
-}
-.block {
-  display: block;
-}
-.flex {
-  display: flex;
-}
-.w-full {
-  width: 100%;
-}
-.w-50p {
-  width: 50%;
-}
-.justify-center {
-  justify-content: center;
-}
-.list-disc {
-  list-style-type: disc;
-}
-.m-4 {
-  margin: 1rem;
+@import "borders";
+@import "colors";
+@import "width";
+@import "display";
+@import "justify";
+@import "list";
+@import "margins";
+@import "paddings";
+@import "backgrounds";
+@import "fonts";
+
+.wp-core-ui {
+  .button-danger {
+    background: #b32d2e;
+    border-color: #b32d2e;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: none;
+  }
+
+  .button-danger:hover {
+    background: #8a2424;
+    border-color: #8a2424;
+    color: #fff;
+  }
 }
 
 .preview-wrap {
   padding: 0 30px;
+
   .preview-box {
     max-width: 500px;
     background: #ffffff;
+
     .header {
       display: flex;
       padding: 16px 16px 0 16px;
       align-items: center;
+
       .fbap-logo {
         img {
           width: 40px;
         }
       }
+
       .fbap-title {
         margin-left: 10px;
+
         h4 {
           line-height: 1em;
           margin-top: 0;
           margin-bottom: 5px;
         }
+
         p {
           line-height: 1em;
           padding: 0;
@@ -51,11 +59,14 @@
         }
       }
     }
+
     h2 {
       padding: 0 16px;
     }
+
     p {
       padding: 0 16px;
     }
   }
 }
+

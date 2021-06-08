@@ -7,8 +7,8 @@ function test_plugin_setup_menu(){
 		'Affiliate ads',
 		'FB Publisher',
 		'manage_options',
-		'fbap-affiliate-ads',
-		'fbap_affiliate_ads',
+		'fbap',
+		'fbap_routing',
 		'dashicons-facebook',
 		30
 	);

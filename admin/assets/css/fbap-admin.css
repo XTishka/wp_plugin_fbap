@@ -1,0 +1,139 @@
+.border {
+  border-width: 1px;
+}
+
+.border-bottom {
+  border-bottom-width: 1px;
+}
+
+.border-dashed {
+  border-style: dashed;
+}
+
+.border-bottom-dashed {
+  border-bottom-style: dashed;
+}
+
+.border-gray-300 {
+  --tw-border-opacity: 1;
+  border-color: rgba(209, 213, 219, var(--tw-border-opacity));
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.color-green {
+  color: green;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-50p {
+  width: 50%;
+}
+
+.block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.list-disc {
+  list-style-type: disc;
+}
+
+.m-4 {
+  margin: 1rem;
+}
+
+.m-5 {
+  margin: 1.25rem;
+}
+
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
+.m-9 {
+  margin: 2.25rem;
+}
+
+.mt-9 {
+  margin-top: 2.25rem;
+}
+
+.p-5 {
+  padding: 1.25rem;
+}
+
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.wp-core-ui .button-danger {
+  background: #b32d2e;
+  border-color: #b32d2e;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: none;
+}
+.wp-core-ui .button-danger:hover {
+  background: #8a2424;
+  border-color: #8a2424;
+  color: #fff;
+}
+
+.preview-wrap {
+  padding: 0 30px;
+}
+.preview-wrap .preview-box {
+  max-width: 500px;
+  background: #ffffff;
+}
+.preview-wrap .preview-box .header {
+  display: flex;
+  padding: 16px 16px 0 16px;
+  align-items: center;
+}
+.preview-wrap .preview-box .header .fbap-logo img {
+  width: 40px;
+}
+.preview-wrap .preview-box .header .fbap-title {
+  margin-left: 10px;
+}
+.preview-wrap .preview-box .header .fbap-title h4 {
+  line-height: 1em;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.preview-wrap .preview-box .header .fbap-title p {
+  line-height: 1em;
+  padding: 0;
+  margin: 0;
+}
+.preview-wrap .preview-box h2 {
+  padding: 0 16px;
+}
+.preview-wrap .preview-box p {
+  padding: 0 16px;
+}
+
+/*# sourceMappingURL=fbap-admin.css.map */
