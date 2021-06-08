@@ -78,6 +78,12 @@ run_fbap();
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+function wpse_206140_enqueue_script() {
+	wp_enqueue_script( 'jquery-ui-datepicker' );
+	wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+}
+add_action( 'wp_enqueue_scripts', 'wpse_206140_enqueue_script' );
+
 add_action('admin_menu', 'my_plugin_create_menu');
 
 function my_plugin_create_menu() {

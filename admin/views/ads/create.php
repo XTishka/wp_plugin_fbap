@@ -1,6 +1,6 @@
 <?php
 
-function show_create_ad($data) { ?>
+function show_create_ad( $data, $partners, $groups ) { ?>
 
     <div id="wpbody-content">
         <div class="wrap">
@@ -10,7 +10,7 @@ function show_create_ad($data) { ?>
 
             <hr class="wp-header-end">
 
-			<?php fbap_tabs_menu('ads') ?>
+			<?php fbap_tabs_menu( 'ads' ) ?>
 
             <div class="clear"></div>
 
@@ -39,7 +39,7 @@ function show_create_ad($data) { ?>
                         </table>
                     </form>
 
-			        <?php if ( $data['show_form'] == true ) : ?>
+					<?php if ( $data['show_form'] == true ) : ?>
                         <form method="post" action="#">
                             <input type="hidden" name="option_page" value="general">
                             <input type="hidden" name="action" value="update">
@@ -81,11 +81,47 @@ function show_create_ad($data) { ?>
                                     <td>
                                         <select name="fbap_affiliate_partner" id="fbap_affiliate_partner"
                                                 class="w-full">
-                                            <option selected="selected" value="subscriber">Select</option>
-                                            <option value="feriehusudlejning">SJ Feriehusudlejning</option>
-                                            <option value="dancenter">DanCenter</option>
-                                            <option value="luksushuse">Luksushuse</option>
+											<?php foreach ( $partners as $partner ) : ?>
+                                                <option value="<?= $partner->id ?>>"><?= $partner->display_name ?></option>
+											<?php endforeach; ?>
                                         </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><label for="fbap_affiliate_partner">Publish date on FB group</label>
+                                    </th>
+                                    <td class="flex">
+                                        <select name="fbap_affiliate_partner" id="fbap_affiliate_partner"
+                                                class="w-full">
+		                                    <?php foreach ( $groups as $group ) : ?>
+                                                <option value="<?= $group->id ?>>"><?= $group->display_name ?></option>
+		                                    <?php endforeach; ?>
+                                        </select>
+                                        <input type="datetime-local" id="start" name="trip-start" value="" >
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row"><label for="fbap_affiliate_partner">Publish date on FB group</label>
+                                    </th>
+                                    <td class="flex">
+                                        <select name="fbap_affiliate_partner" id="fbap_affiliate_partner"
+                                                class="w-full">
+			                                <?php foreach ( $groups as $group ) : ?>
+                                                <option value="<?= $group->id ?>>"><?= $group->display_name ?></option>
+			                                <?php endforeach; ?>
+                                        </select>
+                                        <input type="datetime-local" id="start" name="trip-start" value="" >
+                                    </td>
+                                    <td class="flex">
+                                        <select name="fbap_affiliate_partner" id="fbap_affiliate_partner"
+                                                class="w-full">
+			                                <?php foreach ( $groups as $group ) : ?>
+                                                <option value="<?= $group->id ?>>"><?= $group->display_name ?></option>
+			                                <?php endforeach; ?>
+                                        </select>
+                                        <input type="datetime-local" id="start" name="trip-start" value="" >
                                     </td>
                                 </tr>
 
@@ -116,15 +152,15 @@ function show_create_ad($data) { ?>
                                        value="Save">
                             </p>
                         </form>
-			        <?php endif; ?>
+					<?php endif; ?>
                 </div>
 
                 <div class="w-50p flex justify-center preview-wrap">
-			        <?php if ( $data['show_form'] == true ) : ?>
+					<?php if ( $data['show_form'] == true ) : ?>
                         <div class="preview-box">
                             <div class="header">
                                 <div class="fbap-logo">
-                                    <img src="<?= plugin_dir_url( dirname(dirname( __FILE__ ) )) . 'assets/img/logo-100x100.png'; ?>">
+                                    <img src="<?= plugin_dir_url( dirname( dirname( __FILE__ ) ) ) . 'assets/img/logo-100x100.png'; ?>">
                                 </div>
                                 <div class="fbap-title">
                                     <h4>Ferieboligsiden.dk</h4>
@@ -133,7 +169,7 @@ function show_create_ad($data) { ?>
                             </div>
                             <div class="content">
                                 <h2>
-							        <?= $data['parser']['title'] ?> / <?= $data['parser']['price'] ?> kr
+									<?= $data['parser']['title'] ?> / <?= $data['parser']['price'] ?> kr
                                 </h2>
                                 <p><?= $data['parser']['excerpt'] ?> ...</p>
                                 <img src="<?= $data['parser']['images'][0] ?>" alt="" class="w-full">
@@ -143,7 +179,7 @@ function show_create_ad($data) { ?>
                                 </div>
                             </div>
                         </div>
-			        <?php endif; ?>
+					<?php endif; ?>
                 </div>
             </div>
 

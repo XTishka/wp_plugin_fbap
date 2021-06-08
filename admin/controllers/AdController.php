@@ -2,6 +2,8 @@
 
 namespace fbap\admin\controllers;
 
+use fbap\admin\repositories\GroupRepository;
+use fbap\admin\repositories\PartnerRepository;
 use PHPHtmlParser\Dom;
 
 class AdController {
@@ -12,6 +14,8 @@ class AdController {
 
 	public function create() {
 		$post = $_POST;
+		$partners = new PartnerRepository();
+		$groups = new GroupRepository();
 
 		$data['parser']['url'] = '';
 		$data['show_form']     = false;
@@ -20,7 +24,7 @@ class AdController {
 			$data['show_form'] = true;
 			$data['parser']    = $this->parse( $url );
 		}
-		show_create_ad( $data );
+		show_create_ad( $data, $partners->getAllPartners(), $groups->getAllGroups() );
 	}
 
 	public function parse( $url ) {

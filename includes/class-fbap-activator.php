@@ -32,6 +32,7 @@ class FBAP_Activator {
 	public static function activate() {
 		init_db_partners();
 		init_db_groups();
+		init_db_ads();
 	}
 }
 
@@ -80,6 +81,39 @@ function init_db_groups() {
 		  created_at datetime NOT NULL,
 		  updated_at datetime NOT NULL,
 		  deleted_at datetime NULL,
+		  PRIMARY KEY  (id)
+		) $charset_collate;";
+
+		require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+
+		dbDelta( $sql );
+	}
+
+}
+
+function init_db_ads() {
+	global $table_prefix, $wpdb;
+	$adsTable = $table_prefix . 'fbap_ads';
+	$groupsTable = $table_prefix . 'fbap_groups';
+	$partnersTable = $table_prefix . 'fbap_partners';
+
+	if ( $wpdb->get_var( "show tables like '$adsTable'" ) != $adsTable ) {
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $adsTable (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  title varchar (255) NOT NULL,
+		  desription text NOT NULL,
+		  image json NOT NULL,
+		  pretty_url varchar (255) NOT NULL,
+		  group_id mediumint(9) NOT NULL,
+		  partner_id mediumint(9) NOT NULL,
+		  created_at datetime NOT NULL,
+		  updated_at datetime NOT NULL,
+		  deleted_at datetime NULL,
+		  FOREIGN KEY (group_id) REFERENCES $groupsTable(id) ON DELETE CASCADE,
+		  FOREIGN KEY (partner_id) REFERENCES $partnersTable(id) ON DELETE CASCADE,
 		  PRIMARY KEY  (id)
 		) $charset_collate;";
 

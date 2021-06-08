@@ -4,8 +4,6 @@ function show_update_group( $group, $post, $errors = null ) {
 	$display_name = $post ? $post['display_name'] : $group->display_name;
 	$url          = $post ? $post['url'] : $group->url;
 	$api          = $post ? $post['api'] : $group->api;
-	$group_id   = $post ? $post['group_id'] : $group->group_id;
-	$program_id   = $post ? $post['program_id'] : $group->program_id;
 	?>
 
 	<div id="wpbody-content">
