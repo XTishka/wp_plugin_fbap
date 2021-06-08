@@ -9,7 +9,7 @@ class PartnerController {
 
 	public function index() {
 		$partners = new PartnerRepository();
-		show_index_partners( $partners->getAllPartners() );
+		show_index_partner( $partners->getAllPartners() );
 	}
 
 	public function create() {
@@ -20,7 +20,7 @@ class PartnerController {
 			} else {
 				$partners = new PartnerRepository();
 				$partners->insertPartner( $_POST );
-				show_index_partners( $partners->getAllPartners() );
+				show_index_partner( $partners->getAllPartners() );
 			}
 		} else {
 			show_create_partner( $_POST );
@@ -38,7 +38,7 @@ class PartnerController {
 				} else {
 					$partners = new PartnerRepository();
 					$partners->updatePartner( $id, $_POST );
-					show_index_partners( $partners->getAllPartners() );
+					show_index_partner( $partners->getAllPartners() );
 				}
 			} else {
 				show_update_partner( $partner[0], $_POST );
@@ -55,7 +55,7 @@ class PartnerController {
 			if ( $_POST and $_POST['confirm'] == 'true' ) {
 				$partners = new PartnerRepository();
 				$partners->trashPartner($id);
-				show_index_partners( $partners->getAllPartners() );
+				show_index_partner( $partners->getAllPartners() );
 			} else {
 				show_delete_partner( $partner[0] );
 			}
@@ -71,7 +71,7 @@ class PartnerController {
 			if ( $_POST and $_POST['confirm'] == 'true' ) {
 				$partners = new PartnerRepository();
 				$partners->deletePartner($id);
-				show_index_partners( $partners->getAllPartners() );
+				show_index_partner( $partners->getAllPartners() );
 			} else {
 				show_delete_partner( $partner[0] );
 			}

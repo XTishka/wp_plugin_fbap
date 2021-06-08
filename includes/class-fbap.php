@@ -109,7 +109,6 @@ class FBAP {
 		/**
          * Laminas-Dom :: html parser
          */
-//		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/autoload.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/autoload.php';
 
 		/**
@@ -126,12 +125,15 @@ class FBAP {
 		// Controllers
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/controllers/AdController.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/controllers/PartnerController.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/controllers/GroupController.php';
 
 		// Repositories
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/PartnerRepository.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/GroupRepository.php';
 
 		// Validators
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/validators/PartnerValidator.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/validators/GroupValidator.php';
 
 		// Tab pages
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/main.php';
@@ -142,6 +144,10 @@ class FBAP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/partners/create.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/partners/update.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/partners/delete.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/groups/index.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/groups/create.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/groups/update.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/groups/delete.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing

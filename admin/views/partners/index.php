@@ -1,6 +1,6 @@
 <?php
 
-function show_index_partners( $data ) {
+function show_index_partner( $data ) {
 	?>
 
     <div id="wpbody-content">

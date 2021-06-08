@@ -2,6 +2,7 @@
 
 use fbap\admin\controllers\AdController;
 use fbap\admin\controllers\PartnerController;
+use fbap\admin\controllers\GroupController;
 
 function fbap_routing() { ?>
 	<?php
@@ -37,6 +38,26 @@ function fbap_routing() { ?>
 
 	if ( $tab == 'trash-partner') {
 		$controller = new PartnerController();
+		$controller->trash($id);
+	}
+
+	if ( $tab == 'groups') {
+		$controller = new GroupController();
+		$controller->index();
+	}
+
+	if ( $tab == 'create-group') {
+		$controller = new GroupController();
+		$controller->create();
+	}
+
+	if ( $tab == 'update-group') {
+		$controller = new GroupController();
+		$controller->update($id);
+	}
+
+	if ( $tab == 'trash-group') {
+		$controller = new GroupController();
 		$controller->trash($id);
 	}
 }

@@ -31,19 +31,14 @@ class FBAP_Activator {
 	 */
 	public static function activate() {
 		init_db_partners();
+		init_db_groups();
 	}
 }
 
-// Initialize DB Tables
 function init_db_partners() {
-
-	// WP Globals
 	global $table_prefix, $wpdb;
-
-	// Customer Table
 	$partnersTable = $table_prefix . 'fbap_partners';
 
-	// Create Customer Table if not exist
 	if ( $wpdb->get_var( "show tables like '$partnersTable'" ) != $partnersTable ) {
 
 		$charset_collate = $wpdb->get_charset_collate();
@@ -68,3 +63,30 @@ function init_db_partners() {
 	}
 
 }
+
+function init_db_groups() {
+	global $table_prefix, $wpdb;
+	$groupsTable = $table_prefix . 'fbap_groups';
+
+	if ( $wpdb->get_var( "show tables like '$groupsTable'" ) != $groupsTable ) {
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $groupsTable (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  display_name varchar (255) NOT NULL,
+		  url tinytext NOT NULL,
+		  api varchar (255) NOT NULL,
+		  created_at datetime NOT NULL,
+		  updated_at datetime NOT NULL,
+		  deleted_at datetime NULL,
+		  PRIMARY KEY  (id)
+		) $charset_collate;";
+
+		require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+
+		dbDelta( $sql );
+	}
+
+}
+
