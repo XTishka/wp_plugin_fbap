@@ -3,6 +3,7 @@
 @import "width";
 @import "display";
 @import "justify";
+@import "align";
 @import "list";
 @import "margins";
 @import "paddings";
@@ -30,7 +31,6 @@
 
   .preview-box {
     max-width: 500px;
-    background: #ffffff;
 
     .header {
       display: flex;

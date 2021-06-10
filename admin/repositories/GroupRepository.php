@@ -15,7 +15,7 @@ class GroupRepository {
 		$this->wpdb     = $wpdb;
 		$this->db_table = $table_prefix . 'fbap_groups';
 
-		add_action( 'admin_action_create_group', array( $this, 'insertGroup' ) );
+		add_action( 'admin_action_create_group', [ $this, 'insertGroup' ] );
 	}
 
 	public function getAllGroups() {

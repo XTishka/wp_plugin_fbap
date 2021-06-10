@@ -22,13 +22,6 @@
  */
 class FBAP_Activator {
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
 	public static function activate() {
 		init_db_partners();
 		init_db_groups();

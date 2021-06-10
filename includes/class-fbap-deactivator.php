@@ -30,21 +30,16 @@ class Plugin_Name_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
+		drop_plugin_tables('fbap_ads');
 		drop_plugin_tables('fbap_partners');
+		drop_plugin_tables('fbap_groups');
 	}
 }
 
 function drop_plugin_tables($table) {
 	global $wpdb;
 	global $table_prefix, $wpdb;
-
-	$dropPartnersTable = $table_prefix . 'fbap_partners';
-	$wpdb->query( "DROP TABLE IF EXISTS $dropPartnersTable" );
-
-	$dropGroupsTable = $table_prefix . 'fbap_groups';
-	$wpdb->query( "DROP TABLE IF EXISTS $dropGroupsTable" );
-
-	$dropAdsTable = $table_prefix . 'fbap_ads';
-	$wpdb->query( "DROP TABLE IF EXISTS $dropAdsTable" );
+	echo $table_prefix.$table;
+	$wpdb->query( "DROP TABLE IF EXISTS $table_prefix.$table" );
 }
 

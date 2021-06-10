@@ -21,6 +21,11 @@ function fbap_routing() { ?>
 		$controller->create();
 	}
 
+	if ( $tab == 'update-ad') {
+		$controller = new AdController();
+		$controller->update();
+	}
+
 	if ( $tab == 'partners') {
 		$controller = new PartnerController();
 		$controller->index();

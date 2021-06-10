@@ -1,5 +1,8 @@
 <?php
 
-function affiliate_ads_update() {
+function show_update_ads($post) { ?>
 
-}
+	<pre>
+		<?php print_r($post) ?>
+	</pre>
+<?php }

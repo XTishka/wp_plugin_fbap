@@ -107,7 +107,7 @@ class FBAP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fbap-i18n.php';
 
 		/**
-         * Laminas-Dom :: html parser
+         * Composer
          */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/vendor/autoload.php';
 
@@ -117,11 +117,13 @@ class FBAP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin.php';
 
 		/**
+		 * File upload
+		 */
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
+		/**
 		 * Admin menu and pages
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/admin-menu.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/tabs.php';
-
 		// Controllers
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/controllers/AdController.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/controllers/PartnerController.php';
@@ -137,6 +139,7 @@ class FBAP {
 
 		// Tab pages
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/main.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/layouts/tabs.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/ads/index.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/ads/create.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/ads/update.php';
@@ -170,7 +173,6 @@ class FBAP {
 		$plugin_i18n = new Plugin_Name_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -183,7 +185,11 @@ class FBAP {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new FBAP_Admin( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'init', $plugin_admin, 'create_post_type' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'register_fbap_menu' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_fbap_settings' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 	}
 
 	/**
