@@ -133,6 +133,9 @@ class FBAP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/PartnerRepository.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/GroupRepository.php';
 
+		// Services
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/services/AdService.php';
+
 		// Validators
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/validators/PartnerValidator.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/validators/GroupValidator.php';
