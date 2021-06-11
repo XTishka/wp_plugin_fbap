@@ -26,6 +26,7 @@ class FBAP_Activator {
 		init_db_partners();
 		init_db_groups();
 		init_db_ads();
+		init_db_fb_schedule();
 	}
 }
 
@@ -106,6 +107,34 @@ function init_db_ads() {
 		  post_url varchar (255) NOT NULL,
 		  clicks int(9) NOT NULL,
 		  
+		  created_at datetime NOT NULL,
+		  updated_at datetime NOT NULL,
+		  deleted_at datetime NULL,
+
+		  PRIMARY KEY  (id)
+		) $charset_collate;";
+
+		require_once( ABSPATH . '/wp-admin/includes/upgrade.php' );
+
+		dbDelta( $sql );
+	}
+}
+
+function init_db_fb_schedule() {
+	global $table_prefix, $wpdb;
+	$adsTable      = $table_prefix . 'fbap_fb_schedule';
+
+	if ( $wpdb->get_var( "show tables like '$adsTable'" ) != $adsTable ) {
+
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $adsTable (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  ad_id int(9) NOT NULL,
+		  group_id int(9) NOT NULL,
+		  publication_time datetime NOT NULL,
+		  clicks int(9) NOT NULL,
+		  status varchar(255) NOT NULL,
 		  created_at datetime NOT NULL,
 		  updated_at datetime NOT NULL,
 		  deleted_at datetime NULL,

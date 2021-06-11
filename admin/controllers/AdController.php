@@ -4,6 +4,7 @@ namespace fbap\admin\controllers;
 
 use fbap\admin\repositories\GroupRepository;
 use fbap\admin\repositories\PartnerRepository;
+use fbap\admin\repositories\ScheduleRepository;
 use fbap\admin\services\AdService;
 use fbap\admin\repositories\AdRepository;
 
@@ -11,7 +12,11 @@ class AdController {
 
 	public function index() {
 		$repository = new AdRepository();
-		show_index_ads( $repository->getAllAds() );
+		$groupRepository = new GroupRepository();
+		$partnerRepository = new PartnerRepository();
+		$scheduleRepository = new ScheduleRepository();
+
+		show_index_ads( $repository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository );
 	}
 
 	public function create() {
@@ -53,7 +58,10 @@ class AdController {
 			$repository->insertAd( $post );
 
 			$adsRepository = new AdRepository();
-			show_index_ads( $adsRepository->getAllAds() );
+			$groupRepository = new GroupRepository();
+			$partnerRepository = new PartnerRepository();
+			$scheduleRepository = new ScheduleRepository();
+			show_index_ads( $adsRepository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository  );
 		}
 	}
 
@@ -61,6 +69,10 @@ class AdController {
 		$repository = new AdRepository();
 		$service = new AdService();
 		$partnersRepository = new PartnerRepository();
+		$groupsRepository = new GroupRepository();
+		$groups = $groupsRepository->getAllGroups();
+		$schedulesRepository = new ScheduleRepository();
+		$schedules = $schedulesRepository->getSchedulesByAdID($id);
 
 		$ad = $repository->getAdByID( $id );
 		$ad->partnersLogo = $partnersRepository->getPartnersLogo($id);
@@ -70,7 +82,13 @@ class AdController {
 			$repository->updateAd($id, $_POST);
 			$ad = $repository->getAdByID( $id );
 		}
+
+		if ($_POST and $_POST['action'] == 'create_publication') {
+			$schedulesRepository->insertSchedule($_POST);
+			$schedules = $schedulesRepository->getSchedulesByAdID($id);
+		}
+
 		$post = get_post($ad->post_id);
-		show_update_ads( $ad, $post );
+		show_update_ads( $ad, $post, $groups, $schedules );
 	}
 }

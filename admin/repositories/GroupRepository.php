@@ -30,6 +30,12 @@ class GroupRepository {
 		return $result;
 	}
 
+	public function getGroupName( $id ) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
+
+		return $result[0]->display_name;
+	}
+
 	public function insertGroup( $post ) {
 		$this->wpdb->insert(
 			$this->db_table,

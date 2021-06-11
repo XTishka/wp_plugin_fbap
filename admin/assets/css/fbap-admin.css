@@ -39,6 +39,10 @@
   width: 30%;
 }
 
+.w-40p {
+  width: 40%;
+}
+
 .w-50p {
   width: 50%;
 }
@@ -105,6 +109,10 @@
 
 .mt-5 {
   margin-top: 1.25rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
 }
 
 .m-9 {

@@ -1,6 +1,10 @@
 <?php
 
-function show_update_ads( $ad = null, $post ) { ?>
+use fbap\admin\repositories\GroupRepository;
+
+function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
+
+	<?php $groupsRepository = new GroupRepository(); ?>
 
     <div id="wpbody-content">
     <div class="wrap">
@@ -95,6 +99,83 @@ function show_update_ads( $ad = null, $post ) { ?>
                         </div>
                     </form>
                 </div>
+
+                <div class="mt-5 bg-white w-full rounded">
+                    <div class="bg-gray-100 p-3">
+                        <h2 class="leading-4 m-0">3. Facebook publications schedule</h2>
+                    </div>
+
+                    <div class="p-5">
+						<?php $counter = 1 ?>
+						<?php foreach ( $schedules as $schedule ) : ?>
+                            <div class="border-bottom border-bottom-dashed border-gray-300">
+                                <div class="flex align-center">
+                                    <h4 id="fb-group-<?= $counter ?>" class="w-60p" style="cursor: pointer;">
+										<?= $groupsRepository->getGroupName( $schedule->group_id ) ?>
+                                    </h4>
+                                    <div class="w-40p" style="text-align: right">
+                                        <span class="publication_date"><?= $schedule->publication_time ?></span>
+                                    </div>
+                                </div>
+
+
+                                <div id="fb-group-form-<?= $counter ?>" class="schedule-form" style="display: none">
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="action" value="update_publication">
+                                        <input type="hidden" name="ad_id" value="<?= $ad->id ?>">
+
+                                        <div class="flex justify-between align-center">
+                                            <select name="fbap_affiliate_partner" id="fbap_affiliate_partner"
+                                                    class="w-full">
+												<?php foreach ( $groups as $group ) : ?>
+                                                    <option value="<?= $group->id ?>>"><?= $group->display_name ?></option>
+												<?php endforeach; ?>
+                                            </select>
+                                            <input type="datetime-local" id="start" name="trip-start" value="">
+                                        </div>
+
+                                        <div class="flex justify-flex-end mt-5 mb-5">
+                                            <input type="submit"
+                                                   name="submit"
+                                                   id="submit"
+                                                   class="button button-primary"
+                                                   value="Update">
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+							<?php $counter ++ ?>
+						<?php endforeach; ?>
+
+                        <div id="fb-group-form-create" class="schedule-form-create mt-9 bg-gray-100 p-5">
+                            <h2>Add new facebook publication to shedule</h2>
+                            <form method="POST" action="">
+                                <input type="hidden" name="action" value="create_publication">
+                                <input type="hidden" name="ad_id" value="<?= $ad->id ?>">
+
+                                <div class="flex justify-between align-center">
+                                    <select name="group_id" id="group_id"
+                                            class="w-full">
+										<?php foreach ( $groups as $group ) : ?>
+                                            <option value="<?= $group->id ?>>"><?= $group->display_name ?></option>
+										<?php endforeach; ?>
+                                    </select>
+                                    <input type="datetime-local" id="publication_time" name="publication_time" value="">
+                                </div>
+
+                                <div class="flex justify-flex-end mt-5 mb-5">
+                                    <input type="submit"
+                                           name="submit"
+                                           id="submit"
+                                           class="button button-primary"
+                                           value="Add to schedule">
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
             <div class="w-50p flex justify-center preview-wrap">
@@ -118,7 +199,8 @@ function show_update_ads( $ad = null, $post ) { ?>
                                 <span class="price"><?= $ad->price ?></span>
                             </h2>
 
-                            <p class="description"><?= substr( $description, 0, strrpos( $description, ' ' ) ); ?> ...</p>
+                            <p class="description"><?= substr( $description, 0, strrpos( $description, ' ' ) ); ?>
+                                ...</p>
                             <img src="<?= $images->image_1->url ?>" alt="" class="w-full">
                             <div class="images flex">
                                 <img src="<?= $images->image_2->url ?>" alt="" class="w-50p">
@@ -128,7 +210,7 @@ function show_update_ads( $ad = null, $post ) { ?>
                     </div>
 
                     <div class="preview-post-wrap bg-white mt-5">
-	                    <?php $excerpt = mb_strimwidth( $ad->description, 0, 100 ); ?>
+						<?php $excerpt = mb_strimwidth( $ad->description, 0, 100 ); ?>
                         <h2>Post preview</h2>
                         <div class="preview-post">
                             <div class="post-image">
@@ -154,12 +236,4 @@ function show_update_ads( $ad = null, $post ) { ?>
             </div>
         </div>
     </div>
-
-    <pre>
-		<?php print_r( $ad ) ?>
-	</pre>
-
-    <pre>
-		<?php print_r( $post ) ?>
-	</pre>
 <?php }

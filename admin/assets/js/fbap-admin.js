@@ -5,6 +5,7 @@ $(function () {
 	getEditedPostTitle();
 	getEditedPostPrice();
 	getEditedPostDescription();
+	toggleScheduleForm();
 });
 
 function getEditedPostTitle() {
@@ -32,4 +33,16 @@ function getEditedPostDescription() {
 	postDescription.on('input', function() {
 		postPreviewDescription.text($(this).val().substring(0, 200) + '...');
 	});
+}
+
+function toggleScheduleForm() {
+	let formClass = $('.schedule-form');
+	console.log(formClass.length);
+
+	for (let i = 1; i <= formClass.length; i++) {
+		$('#fb-group-' + i).on('click', function () {
+			$('#fb-group-form-' + i).toggle();
+		});
+		console.log(i);
+	}
 }
