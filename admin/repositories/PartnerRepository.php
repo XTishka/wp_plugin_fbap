@@ -30,6 +30,17 @@ class PartnerRepository {
 		return $result;
 	}
 
+	public function getPartnersLogo($id) {
+		$result = $this->wpdb->get_results( "SELECT `logo_url` FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
+
+		if ($result) {
+			$logo = $result[0]->logo_url;
+		} else {
+			$logo = null;
+		}
+		return $logo;
+	}
+
 	public function insertPartner( $post ) {
 		$this->wpdb->insert(
 			$this->db_table,
@@ -40,6 +51,7 @@ class PartnerRepository {
 				'partner_id'   => $post['partner_id'],
 				'program_id'   => $post['program_id'],
 				'link'         => 'custom_link',
+				'logo_url'     => $post['partner_logo'],
 				'created_at'   => current_time( 'mysql' ),
 				'updated_at'   => current_time( 'mysql' ),
 				'deleted_at'   => null,
@@ -57,6 +69,7 @@ class PartnerRepository {
 				'partner_id'   => $post['partner_id'],
 				'program_id'   => $post['program_id'],
 				'link'         => 'custom_link',
+				'logo_url'     => $post['partner_logo'],
 				'updated_at'   => current_time( 'mysql' ),
 			],
 			[ 'id' => $id ]

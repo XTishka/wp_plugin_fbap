@@ -14,10 +14,6 @@ function show_create_ad( $data, $partners, $groups ) { ?>
 
             <div class="clear"></div>
 
-            <pre>
-                <?php // print_r( $data ) ?>
-            </pre>
-
             <div class="flex">
                 <div class="w-50p">
 
@@ -27,6 +23,21 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                         </div>
                         <form method="POST" action="" class="p-3">
                             <input type="hidden" name="action" value="preview">
+
+                            <div class="flex align-center">
+                                <p class="font-bold w-30p">Affiliate partner:</p>
+                                <p class="w-70p">
+                                    <select name="affiliate_partner_id" id="affiliate_partner_id" class="w-full">
+										<?php foreach ( $partners as $partner ) : ?>
+											<?php $selected = $partner->id == $data['affiliate_partner_id'] ? 'selected' : ''; ?>
+                                            <option value="<?= $partner->id ?>" <?= $selected ?>>
+												<?= $partner->display_name ?>
+                                            </option>
+										<?php endforeach; ?>
+                                    </select>
+                                </p>
+                            </div>
+
                             <div class="flex align-center">
                                 <p class="font-bold w-30p">URL of affiliate ad:</p>
                                 <p class="flex w-70p">
@@ -51,6 +62,7 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                 <input type="hidden" name="image_1" value="<?= $data['parser']['images'][0] ?>">
                                 <input type="hidden" name="image_2" value="<?= $data['parser']['images'][1] ?>">
                                 <input type="hidden" name="image_3" value="<?= $data['parser']['images'][2] ?>">
+                                <input type="hidden" name="affiliate_partner_id" value="<?= $data['affiliate_partner_id'] ?>">
                                 <input type="hidden" name="fbap_affiliate_url" value="<?= $data['parser']['url'] ?>">
 
                                 <div class="flex align-center">
@@ -75,25 +87,13 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                     </p>
                                 </div>
 
-                                <div class="flex align-center">
-                                    <p class="font-bold w-30p">Affiliate partner:</p>
-                                    <p class="w-70p">
-                                        <select name="fbap_affiliate_partner" id="fbap_affiliate_partner" class="w-full">
-		                                    <?php foreach ( $partners as $partner ) : ?>
-                                                <option value="<?= $partner->id ?>"><?= $partner->display_name ?></option>
-		                                    <?php endforeach; ?>
-                                        </select>
-                                    </p>
-                                </div>
-
                                 <div class="flex">
                                     <p class="font-bold w-30p">Description:</p>
                                     <p class="w-70p">
                                         <textarea name="fbap_post_description"
-                                               rows="10"
-                                               id="fbap_post_description"
-                                               class="regular-text w-full"><?= $data['parser']['description'] ?>
-                                        </textarea>
+                                                  rows="10"
+                                                  id="fbap_post_description"
+                                                  class="regular-text w-full"><?= $data['parser']['description'] ?></textarea>
                                     </p>
                                 </div>
 
@@ -241,10 +241,10 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                 </div>
                                 <div class="content">
                                     <h2>
-			                            <span class="title"><?= $data['parser']['title'] ?></span> /
+                                        <span class="title"><?= $data['parser']['title'] ?></span> /
                                         <span class="price"><?= $data['parser']['price'] ?></span>
                                     </h2>
-                                    <p><?= $data['parser']['excerpt'] ?> ...</p>
+                                    <p  class="description"><?= $data['parser']['excerpt'] ?> ...</p>
                                     <img src="<?= $data['parser']['images'][0] ?>" alt="" class="w-full">
                                     <div class="images flex">
                                         <img src="<?= $data['parser']['images'][1] ?>" alt="" class="w-50p">

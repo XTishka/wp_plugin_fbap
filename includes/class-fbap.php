@@ -132,6 +132,7 @@ class FBAP {
 		// Repositories
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/PartnerRepository.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/GroupRepository.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/repositories/AdRepository.php';
 
 		// Services
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/services/AdService.php';

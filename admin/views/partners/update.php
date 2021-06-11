@@ -103,6 +103,20 @@ function show_update_partner( $partner, $post, $errors = null ) {
                         </td>
                     </tr>
 
+                    <tr>
+                        <th scope="row">
+                            <label for="partner_logo">Partner's logo URL</label>
+                        </th>
+                        <td>
+                            <input name="partner_logo"
+                                   type="numder"
+                                   id="partner_logo"
+                                   value="<?php if ( $post )
+			                           echo $post['partner_logo'] ?>"
+                                   class="regular-text">
+                        </td>
+                    </tr>
+
                     </tbody>
                 </table>
 

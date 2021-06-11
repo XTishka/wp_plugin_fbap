@@ -67,6 +67,63 @@
     p {
       padding: 0 16px;
     }
+
+    .preview-post-wrap {
+      h2 {
+        padding-top: 20px;
+      }
+      .preview-post {
+        display: flex;
+        .post-image {
+          width: 300px;
+          img {
+            width: 100%;
+          }
+        }
+        .post-content {
+          padding: 0 10px 20px 10px;
+          position: relative;
+          .topper {
+            display: flex;
+            justify-content: space-between;
+            .category {
+              background: #10A052;
+              border-bottom-left-radius: 5px;
+              border-bottom-right-radius: 5px;
+              padding: 5px 10px;
+              color: #fff;
+              font-size: 12px;
+            }
+            .locale {
+              padding: 5px 10px;
+              color: #ACACAC;
+            }
+          }
+          h3 {
+            font-size: 14px;
+            color: #FF8639;
+            font-weight: 600;
+          }
+          p {
+            padding: 0;
+            margin-bottom: 20px;
+          }
+          .price {
+            background: #FF8639;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: 700;
+          }
+          .partner-logo {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+          }
+        }
+      }
+    }
   }
 }
 

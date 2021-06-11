@@ -20,24 +20,33 @@ class AdService {
 		return $post_id;
 	}
 
+	public function updatePost( $post_id, $post ) {
+		$post_data = array(
+			'ID'           => $post_id,
+			'post_title'   => sanitize_text_field( $post['fbap_post_title'] ),
+			'post_content' => $post['fbap_post_description'],
+		);
+		wp_update_post( $post_data );
+	}
+
 	public function uploadPostImages( $post ): array {
 		$imagesData = [
 			'image_1' => [
 				'url'      => $post['image_1'],
-				'post_id'  => $post['id'],
-				'filename' => $post['id'] . '_image_1',
+				'post_id'  => $post['post_id'],
+				'filename' => $post['post_id'] . '_image_1',
 				'title'    => $post['fbap_post_title'],
 			],
 			'image_2' => [
 				'url'      => $post['image_2'],
-				'post_id'  => $post['id'],
-				'filename' => $post['id'] . '_image_2',
+				'post_id'  => $post['post_id'],
+				'filename' => $post['post_id'] . '_image_2',
 				'title'    => $post['fbap_post_title'],
 			],
 			'image_3' => [
 				'url'      => $post['image_3'],
-				'post_id'  => $post['id'],
-				'filename' => $post['id'] . '_image_3',
+				'post_id'  => $post['post_id'],
+				'filename' => $post['post_id'] . '_image_3',
 				'title'    => $post['fbap_post_title'],
 			],
 		];
@@ -45,22 +54,23 @@ class AdService {
 		return $this->uploadImagesFiles( $imagesData );
 	}
 
-	public function connectImagesToPost( $postId, $images) {
-		foreach ($images as $index => $image) {
-			if ($index == 'image_1') {
+	public function connectImagesToPost( $postId, $images ) {
+		foreach ( $images as $index => $image ) {
+			if ( $index == 'image_1' ) {
 				set_post_thumbnail( $postId, $image['id'] );
 			}
 			add_post_meta( $postId, $index, $image['url'] );
 		}
 	}
 
-	public function addPostMeta($post) {
-		$partners = new PartnerRepository();
-		$partner  = $partners->getPartnerByID( $post['fbap_affiliate_partner'] );
+	public function addPostMeta( $post ) {
+		add_post_meta( $post['post_id'], 'affiliate_url', $post['fbap_affiliate_url'] );
+		add_post_meta( $post['post_id'], 'price', $post['fbap_post_price'] );
+		add_post_meta( $post['post_id'], 'affiliate_partner', $post['affiliate_partner_name'] );
+	}
 
-		add_post_meta( $post['id'], 'affiliate_url', $post['fbap_affiliate_url'] );
-		add_post_meta( $post['id'], 'price', $post['fbap_post_price'] );
-		add_post_meta( $post['id'], 'affiliate_partner', $partner[0]->display_name );
+	public function updatePostPrice($postId, $postPrice) {
+		update_post_meta( $postId, 'price', $postPrice );
 	}
 
 	public function parse( $url ) {
@@ -143,6 +153,7 @@ class AdService {
 				'url'      => $imgUrl[0],
 			];
 		}
+
 		return $images;
 	}
 

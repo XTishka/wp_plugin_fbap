@@ -5,11 +5,13 @@ namespace fbap\admin\controllers;
 use fbap\admin\repositories\GroupRepository;
 use fbap\admin\repositories\PartnerRepository;
 use fbap\admin\services\AdService;
+use fbap\admin\repositories\AdRepository;
 
 class AdController {
 
 	public function index() {
-		show_index_ads();
+		$repository = new AdRepository();
+		show_index_ads( $repository->getAllAds() );
 	}
 
 	public function create() {
@@ -20,31 +22,55 @@ class AdController {
 
 		$data['parser']['url'] = '';
 		$data['show_form']     = false;
-		if ( $post and $post['action'] == 'preview' and $post['fbap_affiliate_url'] ) {
-			$url               = $post['fbap_affiliate_url'];
-			$data['show_form'] = true;
-			$data['parser']    = $service->parse( $url );
-			show_create_ad( $data, $partners->getAllPartners(), $groups->getAllGroups() );
-		}
 
 		if ( ! $post ) {
 			show_create_ad( $data, $partners->getAllPartners(), $groups->getAllGroups() );
 		}
 
+		if ( $post and $post['action'] == 'preview' and $post['fbap_affiliate_url'] and $post['affiliate_partner_id'] ) {
+			$url                          = $post['fbap_affiliate_url'];
+			$data['show_form']            = true;
+			$data['parser']               = $service->parse( $url );
+			$data['affiliate_partner_id'] = $post['affiliate_partner_id'];
+
+			show_create_ad( $data, $partners->getAllPartners(), $groups->getAllGroups() );
+		}
+
 		// Create post and image upload
 		if ( $post and $post['action'] == 'create_post' ) {
-			$service        = new AdService();
-			$post['id']     = $service->createPost( $post );
-			$post['images'] = $service->uploadPostImages( $post );
-			$service->connectImagesToPost($post['id'], $post['images']);
-			$service->addPostMeta($post);
+			$service    = new AdService();
+			$repository = new AdRepository();
 
-			echo '<pre>';
-			print_r( $post );
-			echo '</pre>';
+			$partner                        = $partners->getPartnerByID( $post['affiliate_partner_id'] )[0];
+			$post['post_id']                = $service->createPost( $post );
+			$post['images']                 = $service->uploadPostImages( $post );
+			$post['affiliate_partner_name'] = $partner->display_name;
+			$publication                    = get_post( $post['post_id'] );
+			$post['post_url']               = $publication->guid;
+			$post['affiliate_link']         = $post['fbap_affiliate_url'];
+			$service->connectImagesToPost( $post['post_id'], $post['images'] );
+			$service->addPostMeta( $post );
+			$repository->insertAd( $post );
 
-
-			show_update_ads( get_post( $post['id'] ) );
+			$adsRepository = new AdRepository();
+			show_index_ads( $adsRepository->getAllAds() );
 		}
+	}
+
+	public function update( $id ) {
+		$repository = new AdRepository();
+		$service = new AdService();
+		$partnersRepository = new PartnerRepository();
+
+		$ad = $repository->getAdByID( $id );
+		$ad->partnersLogo = $partnersRepository->getPartnersLogo($id);
+		if ($_POST and $_POST['action'] == 'update_post') {
+			$service->updatePost($ad->post_id, $_POST);
+			$service->updatePostPrice($ad->post_id, $_POST['fbap_post_price']);
+			$repository->updateAd($id, $_POST);
+			$ad = $repository->getAdByID( $id );
+		}
+		$post = get_post($ad->post_id);
+		show_update_ads( $ad, $post );
 	}
 }

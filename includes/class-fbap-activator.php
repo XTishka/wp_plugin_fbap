@@ -45,6 +45,7 @@ function init_db_partners() {
 		  partner_id varchar (255) NOT NULL,
 		  program_id varchar (255) NOT NULL,
 		  link tinytext NOT NULL,
+		  logo_url tinytext NOT NULL,
 		  created_at datetime NOT NULL,
 		  updated_at datetime NOT NULL,
 		  deleted_at datetime NULL,
@@ -86,9 +87,7 @@ function init_db_groups() {
 
 function init_db_ads() {
 	global $table_prefix, $wpdb;
-	$adsTable = $table_prefix . 'fbap_ads';
-	$groupsTable = $table_prefix . 'fbap_groups';
-	$partnersTable = $table_prefix . 'fbap_partners';
+	$adsTable      = $table_prefix . 'fbap_ads';
 
 	if ( $wpdb->get_var( "show tables like '$adsTable'" ) != $adsTable ) {
 
@@ -97,16 +96,20 @@ function init_db_ads() {
 		$sql = "CREATE TABLE $adsTable (
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  title varchar (255) NOT NULL,
-		  desription text NOT NULL,
-		  image json NOT NULL,
-		  pretty_url varchar (255) NOT NULL,
-		  group_id mediumint(9) NOT NULL,
+		  description text NOT NULL,
+		  price varchar(255) NOT NULL,
 		  partner_id mediumint(9) NOT NULL,
+		  partner_name varchar (255) NOT NULL,
+		  affiliate_link varchar (255) NOT NULL,
+		  images json NOT NULL,
+		  post_id int(9) NOT NULL,
+		  post_url varchar (255) NOT NULL,
+		  clicks int(9) NOT NULL,
+		  
 		  created_at datetime NOT NULL,
 		  updated_at datetime NOT NULL,
 		  deleted_at datetime NULL,
-		  FOREIGN KEY (group_id) REFERENCES $groupsTable(id) ON DELETE CASCADE,
-		  FOREIGN KEY (partner_id) REFERENCES $partnersTable(id) ON DELETE CASCADE,
+
 		  PRIMARY KEY  (id)
 		) $charset_collate;";
 
@@ -114,6 +117,5 @@ function init_db_ads() {
 
 		dbDelta( $sql );
 	}
-
 }
 
