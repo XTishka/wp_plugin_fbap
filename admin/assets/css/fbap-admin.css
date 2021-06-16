@@ -197,7 +197,7 @@
 }
 
 .bg-gray-100 {
-  background-color: #f7fafc;
+  background-color: #f6f7f7;
 }
 
 .bg-gray-200 {
@@ -715,6 +715,33 @@
   bottom: 0;
   right: 0;
   width: 100px;
+}
+
+.ad-publications-table .filters a {
+  color: #c3c4c7;
+  padding: 5px 10px;
+  border: 1px solid #c3c4c7;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+}
+.ad-publications-table .filters a:hover {
+  border: 1px solid #2271b1;
+  color: #2271b1;
+  transition: 0.3s;
+}
+.ad-publications-table .filters a.selected {
+  color: #2271b1;
+  border: 1px solid #2271b1;
+}
+.ad-publications-table table .title {
+  color: #2271b1;
+  cursor: pointer;
+}
+.ad-publications-table table .edit-schedule {
+  color: #2271b1;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=fbap-admin.css.map */

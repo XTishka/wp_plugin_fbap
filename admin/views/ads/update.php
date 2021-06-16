@@ -21,13 +21,13 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
         <div class="flex">
             <div class="w-50p">
 
-                <div class="mt-5 bg-white w-full rounded">
-                    <div class="bg-gray-100 p-3">
-                        <h2 class="leading-4 m-0">1. Parse affiliates page</h2>
+                <div class="mt-5 bg-white w-full" style="border: 1px solid #c3c4c7 ">
+                    <div class="bg-gray-100 p-3 flex justify-between  toggle-header-1">
+                        <h2 class="leading-4 m-0">1. Page info</h2>
+                        <span class="dashicons dashicons-arrow-down-alt2"></span>
                     </div>
-                    <form method="POST" action="" class="p-3">
-                        <input type="hidden" name="action" value="preview">
 
+                    <div class="p-3 toggled-content-1" style="display: none">
                         <div class="flex align-center">
                             <p class="font-bold w-30p">Affiliate partner:</p>
                             <p class="w-70p">
@@ -48,14 +48,15 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                                 <a href="<?= $ad->post_url ?>" target="_blank"><?= $ad->post_url ?></a>
                             </p>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
-                <div class="mt-5 bg-white w-full rounded">
-                    <div class="bg-gray-100 p-3">
+                <div class="mt-5 bg-white w-full"  style="border: 1px solid #c3c4c7 ">
+                    <div class="bg-gray-100 p-3 flex justify-between toggle-header-2">
                         <h2 class="leading-4 m-0">2. Update post</h2>
+                        <span class="dashicons dashicons-arrow-down-alt2"></span>
                     </div>
-                    <form method="POST" action="" class="p-3">
+                    <form method="POST" action="" class="p-3 toggled-content-2" style="display: none">
                         <input type="hidden" name="action" value="update_post">
 
                         <div class="flex align-center">
@@ -100,53 +101,138 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                     </form>
                 </div>
 
-                <div class="mt-5 bg-white w-full rounded">
-                    <div class="bg-gray-100 p-3">
+                <div class="mt-5 bg-white w-full"  style="border: 1px solid #c3c4c7 ">
+                    <div class="bg-gray-100 p-3 flex justify-between toggle-header-3">
                         <h2 class="leading-4 m-0">3. Facebook publications schedule</h2>
+                        <span class="dashicons dashicons-arrow-down-alt2"></span>
                     </div>
 
-                    <div class="p-5">
-						<?php $counter = 1 ?>
-						<?php foreach ( $schedules as $schedule ) : ?>
-                            <div class="border-bottom border-bottom-dashed border-gray-300">
-                                <div class="flex align-center">
-                                    <h4 id="fb-group-<?= $counter ?>" class="w-60p" style="cursor: pointer;">
-										<?= $groupsRepository->getGroupName( $schedule->group_id ) ?>
-                                    </h4>
-                                    <div class="w-40p" style="text-align: right">
-                                        <span class="publication_date"><?= $schedule->publication_time ?></span>
-                                    </div>
-                                </div>
+                    <div class="p-5 ad-publications-table toggled-content-3">
+						<?php $filterWaiting = home_url() . '/wp-admin/admin.php?page=fbap&tab=update-ad&id=' . $ad->id . '&filter=waiting'; ?>
+						<?php $filterPublished = home_url() . '/wp-admin/admin.php?page=fbap&tab=update-ad&id=' . $ad->id . '&filter=published'; ?>
+						<?php $filterTrashed = home_url() . '/wp-admin/admin.php?page=fbap&tab=update-ad&id=' . $ad->id . '&filter=trashed'; ?>
+						<?php $filterSelected = 'waiting'; ?>
+						<?php if ( isset( $_GET['filter'] ) ) : ?>
+							<?php if ( $_GET['filter'] == 'waiting' )
+								$filterSelected = 'waiting' ?>
+							<?php if ( $_GET['filter'] == 'published' )
+								$filterSelected = 'published' ?>
+							<?php if ( $_GET['filter'] == 'trashed' )
+								$filterSelected = 'trashed' ?>
+						<?php endif; ?>
 
+                        <div class="filters mb-5">
+                            <a href="<?= $filterWaiting ?>" <?php if ( $filterSelected == 'waiting' )
+								echo 'class="selected"' ?>>waiting</a>
+                            <a href="<?= $filterPublished ?>" <?php if ( $filterSelected == 'published' )
+								echo 'class="selected"' ?>>published</a>
+                            <a href="<?= $filterTrashed ?>" <?php if ( $filterSelected == 'trashed' )
+								echo 'class="selected"' ?>>trashed</a>
+                        </div>
 
-                                <div id="fb-group-form-<?= $counter ?>" class="schedule-form" style="display: none">
-                                    <form method="POST" action="">
-                                        <input type="hidden" name="action" value="update_publication">
-                                        <input type="hidden" name="ad_id" value="<?= $ad->id ?>">
+                        <table class="wp-list-table widefat striped">
+                            <thead>
+                            <tr>
+                                <th class="schedule-counter">#</th>
+                                <th class="schedule-group-title">Facebook Group</th>
+                                <th class="schedule-published-at">Published at</th>
+                                <th class="schedule-status">Status</th>
+                                <th class="schedule-clicks" style="text-align: center">Clicks</th>
+                            </tr>
+                            </thead>
 
-                                        <div class="flex justify-between align-center">
-                                            <select name="fbap_affiliate_partner" id="fbap_affiliate_partner"
-                                                    class="w-full">
-												<?php foreach ( $groups as $group ) : ?>
-                                                    <option value="<?= $group->id ?>>"><?= $group->display_name ?></option>
-												<?php endforeach; ?>
-                                            </select>
-                                            <input type="datetime-local" id="start" name="trip-start" value="">
-                                        </div>
+                            <tbody id="schedule-list" data-wp-lists="publications-schedule">
 
-                                        <div class="flex justify-flex-end mt-5 mb-5">
-                                            <input type="submit"
-                                                   name="submit"
-                                                   id="submit"
-                                                   class="button button-primary"
-                                                   value="Update">
-                                        </div>
+							<?php $counter = 1 ?>
+							<?php foreach ( $schedules as $schedule ) : ?>
+
+                                <tr id="group-<?= $counter ?>">
+                                    <form method="POST" action="" class="publications-schedule-form">
+                                        <input type="hidden" name="action" value="update_publication_schedule">
+                                        <input type="hidden" name="publication_id" value="<?= $schedule->id ?>">
+
+                                        <td data-colname="counter"><?= $counter ?></td>
+
+                                        <td id="fb-group-<?= $counter ?>" class="title" data-colname="fb_group">
+                                            <strong><?= $groupsRepository->getGroupName( $schedule->group_id ) ?></strong>
+											<?php if ( $filterSelected == 'waiting' or $filterSelected == 'published' ) : ?>
+                                                <br>
+                                                <div class="row-actions">
+													<?php $trashLink = home_url() . '/wp-admin/admin.php?page=fbap&tab=update-ad&id=' . $ad->id . '&filter=waiting&trash=' . $schedule->id; ?>
+
+                                                    <?php if ( $filterSelected == 'waiting' ) : ?>
+                                                    <span id="edit_schedule_button_<?= $counter ?>"
+                                                          class="edit-schedule">Edit | </span>
+                                                    <?php endif; ?>
+                                                    <span class="trash"><a href="<?= $trashLink ?>">Trash</a></span>
+                                                </div>
+
+												<?php if ( $filterSelected == 'waiting' ) : ?>
+                                                    <div class="schedule-edit-<?= $counter ?>" style="display: none">
+                                                        <select name="group_id" id="group_id"
+                                                                class="w-full">
+															<?php foreach ( $groups as $group ) : ?>
+																<?php $selected = $group->id == $schedule->group_id ? 'selected' : ''; ?>
+                                                                <option value="<?= $group->id ?>>" <?= $selected ?>>
+																	<?= $group->display_name ?>
+                                                                </option>
+															<?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+												<?php endif; ?>
+											<?php endif; ?>
+                                        </td>
+
+                                        <td class="name column-name" data-colname="published_at">
+											<?= $schedule->publication_time ?>
+											<?php if ( $filterSelected == 'waiting' ) : ?>
+                                                <br><br>
+                                                <div class="schedule-edit-<?= $counter ?>" style="display: none">
+                                                    <input type="datetime-local" id="publication_time"
+                                                           name="publication_time" value=""
+                                                           min='2021-06-14 19:41:00'>
+                                                </div>
+											<?php endif; ?>
+                                        </td>
+
+                                        <td class="name column-name" data-colname="clicks">
+											<?= $schedule->status ?>
+											<?php if ( $filterSelected == 'waiting' ) : ?>
+                                                <br><br>
+                                                <div class="schedule-edit-<?= $counter ?>" style="display: none">
+                                                    <input type="submit"
+                                                           name="submit"
+                                                           id="submit"
+                                                           class="button button-primary"
+                                                           value="Update">
+                                                </div>
+											<?php endif; ?>
+                                        </td>
+
+                                        <td style="text-align: center">
+											<?= $schedule->clicks ?>
+                                        </td>
                                     </form>
-                                </div>
+                                </tr>
 
-                            </div>
-							<?php $counter ++ ?>
-						<?php endforeach; ?>
+
+								<?php $counter ++ ?>
+							<?php endforeach; ?>
+
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <th class="schedule-counter">#</th>
+                                <th class="schedule-group-title">Facebook Group</th>
+                                <th class="schedule-published-at">Published at</th>
+                                <th class="schedule-status">Status</th>
+                                <th class="schedule-clicks">Clicks</th>
+                            </tr>
+                            </tfoot>
+
+                        </table>
+
 
                         <div id="fb-group-form-create" class="schedule-form-create mt-9 bg-gray-100 p-5">
                             <h2>Add new facebook publication to shedule</h2>
@@ -174,6 +260,48 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                             </form>
                         </div>
 
+                    </div>
+                </div>
+
+                <div class="mt-5 bg-white w-full"  style="border: 1px solid #c3c4c7 ">
+                    <div class="bg-red-200 p-3 flex justify-between toggle-header-4">
+                        <h2 class="leading-4 m-0">4. Danger zone</h2>
+                        <span class="dashicons dashicons-arrow-down-alt2"></span>
+                    </div>
+
+                    <div class="p-3 toggled-content-4 bg-red-100" style="display: none">
+                        <form method="POST" action="" class="p-3">
+                            <input type="hidden" name="action" value="delete_ad">
+
+                            <div class="flex align-center">
+                                <p class="font-bold w-30p">Delete FB Ads post:</p>
+                                <p class="w-70p">
+                                    <input type="checkbox" id="ad-posts" name="ad-posts" checked>
+                                </p>
+                            </div>
+
+                            <div class="flex align-center">
+                                <p class="font-bold w-30p">Delete images from media:</p>
+                                <p class="w-70p">
+                                    <input type="checkbox" id="ad-images" name="ad-images" checked>
+                                </p>
+                            </div>
+
+                            <div class="flex align-center">
+                                <p class="font-bold w-30p">Delete schedule publications<br> from database:</p>
+                                <p class="w-70p">
+                                    <input type="checkbox" id="ad-schedules" name="ad-schedules">
+                                </p>
+                            </div>
+
+
+                            <div class="flex justify-flex-end">
+                                <input type="submit"
+                                       name="submit"
+                                       id="submit"
+                                       class="button button-danger"
+                                       value="Delete">
+                            </div>
                     </div>
                 </div>
             </div>

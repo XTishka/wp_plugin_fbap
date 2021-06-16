@@ -6,6 +6,7 @@ $(function () {
 	getEditedPostPrice();
 	getEditedPostDescription();
 	toggleScheduleForm();
+	toggleBlocks();
 });
 
 function getEditedPostTitle() {
@@ -36,13 +37,20 @@ function getEditedPostDescription() {
 }
 
 function toggleScheduleForm() {
-	let formClass = $('.schedule-form');
-	console.log(formClass.length);
+	let formClass = $('.publications-schedule-form');
 
 	for (let i = 1; i <= formClass.length; i++) {
 		$('#fb-group-' + i).on('click', function () {
-			$('#fb-group-form-' + i).toggle();
+			$('.schedule-edit-' + i).toggle();
 		});
-		console.log(i);
 	}
 }
+
+function toggleBlocks() {
+	for (let i = 1; i <= 4; i++) {
+		$('.toggle-header-' + i).on('click', function () {
+			$('.toggled-content-' + i).toggle();
+		});
+	}
+}
+

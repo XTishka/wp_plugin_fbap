@@ -127,3 +127,36 @@
   }
 }
 
+.ad-publications-table {
+  .filters {
+    a {
+      color: #c3c4c7;
+      padding: 5px 10px;
+      border: 1px solid #c3c4c7;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: .3s;
+      text-decoration: none;
+
+      &:hover {
+        border: 1px solid #2271b1;
+        color: #2271b1;
+        transition: .3s;
+      }
+    }
+    a.selected {
+      color: #2271b1;
+      border: 1px solid #2271b1;
+    }
+  }
+  table {
+    .title {
+      color: #2271b1;
+      cursor: pointer;
+    }
+    .edit-schedule {
+      color: #2271b1;
+      cursor: pointer;
+    }
+  }
+}

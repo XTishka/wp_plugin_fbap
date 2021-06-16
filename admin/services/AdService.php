@@ -3,6 +3,7 @@
 namespace fbap\admin\services;
 
 use fbap\admin\repositories\PartnerRepository;
+use fbap\admin\repositories\ScheduleRepository;
 use PHPHtmlParser\Dom;
 
 class AdService {
@@ -27,6 +28,10 @@ class AdService {
 			'post_content' => $post['fbap_post_description'],
 		);
 		wp_update_post( $post_data );
+	}
+
+	public function deletePost( $post_id ) {
+		wp_delete_post($post_id);
 	}
 
 	public function uploadPostImages( $post ): array {
@@ -54,6 +59,13 @@ class AdService {
 		return $this->uploadImagesFiles( $imagesData );
 	}
 
+	public function deleteImagesFromMedia($ad) {
+		$images = json_decode( $ad->images );
+		foreach ($images as $image) {
+			wp_delete_attachment( $image->id );
+		}
+	}
+
 	public function connectImagesToPost( $postId, $images ) {
 		foreach ( $images as $index => $image ) {
 			if ( $index == 'image_1' ) {
@@ -69,7 +81,7 @@ class AdService {
 		add_post_meta( $post['post_id'], 'affiliate_partner', $post['affiliate_partner_name'] );
 	}
 
-	public function updatePostPrice($postId, $postPrice) {
+	public function updatePostPrice( $postId, $postPrice ) {
 		update_post_meta( $postId, 'price', $postPrice );
 	}
 
@@ -169,5 +181,16 @@ class AdService {
 		}
 
 		return $filename;
+	}
+
+	public function getFilteredSchedules( $id, $filter ) {
+		$schedulesRepository = new ScheduleRepository();
+		if ( $filter != 'trashed' ) {
+			$schedules = $schedulesRepository->getFilteredSchedulesByAdId( $id, $filter );
+		} else {
+			$schedules = $schedulesRepository->getTrashedSchedulesByAdId( $id, $filter );
+		}
+
+		return $schedules;
 	}
 }

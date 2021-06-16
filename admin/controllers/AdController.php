@@ -72,7 +72,13 @@ class AdController {
 		$groupsRepository = new GroupRepository();
 		$groups = $groupsRepository->getAllGroups();
 		$schedulesRepository = new ScheduleRepository();
-		$schedules = $schedulesRepository->getSchedulesByAdID($id);
+		$filter = 'waiting';
+		if (isset($_GET['filter'])) :
+			if ($_GET['filter'] == 'waiting') $filter = 'waiting';
+			if ($_GET['filter'] == 'published') $filter = 'published';
+			if ($_GET['filter'] == 'trashed') $filter = 'trashed';
+			endif;
+		$schedules = $service->getFilteredSchedules($id, $filter);
 
 		$ad = $repository->getAdByID( $id );
 		$ad->partnersLogo = $partnersRepository->getPartnersLogo($id);
@@ -85,10 +91,39 @@ class AdController {
 
 		if ($_POST and $_POST['action'] == 'create_publication') {
 			$schedulesRepository->insertSchedule($_POST);
-			$schedules = $schedulesRepository->getSchedulesByAdID($id);
+			$schedules = $service->getFilteredSchedules($id, $filter);
+		}
+
+		if ($_POST and $_POST['action'] == 'update_publication_schedule') {
+			$schedulesRepository->updateSchedule($_POST);
+			$schedules = $service->getFilteredSchedules($id, $filter);
+		}
+
+		if (isset($_GET['trash'])) {
+			$schedulesRepository->trashSchedule($_GET['trash']);
+			$schedules = $service->getFilteredSchedules($id, $filter);
+		}
+
+		if ($_POST and $_POST['action'] == 'delete_ad') {
+
+			$service->deletePost($ad->post_id);
+			$service->deleteImagesFromMedia($ad);
+			$schedules = $schedulesRepository->getAllAdsSchedulesWithTrashed($ad->id);
+			foreach ($schedules as $schedule) {
+				$schedulesRepository->deleteSchedule($schedule->id);
+			}
+			$repository->trashAd($ad->id);
 		}
 
 		$post = get_post($ad->post_id);
-		show_update_ads( $ad, $post, $groups, $schedules );
+		if ($post) {
+			show_update_ads( $ad, $post, $groups, $schedules );
+		} else {
+			$adsRepository = new AdRepository();
+			$groupRepository = new GroupRepository();
+			$partnerRepository = new PartnerRepository();
+			$scheduleRepository = new ScheduleRepository();
+			show_index_ads( $adsRepository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository  );
+		}
 	}
 }

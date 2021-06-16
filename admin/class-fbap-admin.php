@@ -102,7 +102,7 @@ class FBAP_Admin {
 				'custom-fields',
 			],
 			// You can associate this CPT with a taxonomy or custom taxonomy.
-			'taxonomies'          => ['category'],
+//			'taxonomies'          => ['category'],
 			/* A hierarchical CPT is like Pages and can have
 			* Parent and child items. A non-hierarchical CPT
 			* is like Posts.

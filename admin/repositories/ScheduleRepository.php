@@ -24,6 +24,12 @@ class ScheduleRepository {
 		return $result;
 	}
 
+	public function getAllAdsSchedulesWithTrashed($id) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `ad_id` = $id " );
+
+		return $result;
+	}
+
 	public function getScheduleByID( $id ) {
 		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
 
@@ -32,6 +38,18 @@ class ScheduleRepository {
 
 	public function getSchedulesByAdID( $id ) {
 		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL AND `ad_id` = $id" );
+
+		return $result;
+	}
+
+	public function getFilteredSchedulesByAdId( $id, $filter ) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL AND `ad_id` = $id AND `status` = '$filter'" );
+
+		return $result;
+	}
+
+	public function getTrashedSchedulesByAdId( $id, $filter ) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NOT NULL AND `ad_id` = $id" );
 
 		return $result;
 	}
@@ -52,20 +70,15 @@ class ScheduleRepository {
 		);
 	}
 
-	public function updateSchedule( $id, $post ) {
+	public function updateSchedule( $post ) {
 		$this->wpdb->update(
 			$this->db_table,
 			[
-				'display_name' => $post['display_name'],
-				'url'          => $post['url'],
-				'api'          => $post['api'],
-				'schedule_id'  => $post['schedule_id'],
-				'program_id'   => $post['program_id'],
-				'link'         => 'custom_link',
-				'logo_url'     => $post['schedule_logo'],
+				'group_id'         => $post['group_id'],
+				'publication_time' => $post['publication_time'],
 				'updated_at'   => current_time( 'mysql' ),
 			],
-			[ 'id' => $id ]
+			[ 'id' => $post['publication_id'] ]
 		);
 	}
 
@@ -73,6 +86,7 @@ class ScheduleRepository {
 		$this->wpdb->update(
 			$this->db_table,
 			[
+				'status' => 'trashed',
 				'deleted_at' => current_time( 'mysql' )
 			],
 			[ 'id' => $id ]
