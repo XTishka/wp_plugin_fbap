@@ -42,6 +42,24 @@ class ScheduleRepository {
 		return $result;
 	}
 
+	public function getLastSchedule() {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL ORDER BY `id` DESC LIMIT 1" );
+
+		return $result[0];
+	}
+
+	public function getLastScheduleId() {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL ORDER BY `id` DESC LIMIT 1" );
+
+		return $result[0]->id;
+	}
+
+	public function getLastSchedulePublicationDate() {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL ORDER BY `id` DESC LIMIT 1" );
+
+		return $result[0]->publication_time;
+	}
+
 	public function getFilteredSchedulesByAdId( $id, $filter ) {
 		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL AND `ad_id` = $id AND `status` = '$filter'" );
 
@@ -79,6 +97,16 @@ class ScheduleRepository {
 				'updated_at'   => current_time( 'mysql' ),
 			],
 			[ 'id' => $post['publication_id'] ]
+		);
+	}
+
+	public function updateScheduleClicks( $id, $clicks ) {
+		$this->wpdb->update(
+			$this->db_table,
+			[
+				'clicks'         => $clicks,
+			],
+			[ 'id' => $id ]
 		);
 	}
 

@@ -117,6 +117,11 @@ class FBAP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin.php';
 
 		/**
+		 * The class responsible for defining all actions that occur in the admin area.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/FacebookApi.php';
+
+		/**
 		 * File upload
 		 */
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -156,6 +161,11 @@ class FBAP {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/groups/create.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/groups/update.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/views/groups/delete.php';
+
+		/**
+		 * Shortcodes
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/shortcodes.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing

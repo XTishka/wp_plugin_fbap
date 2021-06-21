@@ -6,6 +6,8 @@ function show_update_partner( $partner, $post, $errors = null ) {
 	$api          = $post ? $post['api'] : $partner->api;
 	$partner_id   = $post ? $post['partner_id'] : $partner->partner_id;
 	$program_id   = $post ? $post['program_id'] : $partner->program_id;
+	$link         = $post ? $post['link'] : $partner->link;
+	$logo         = $post ? $post['logo_url'] : $partner->logo_url;
 	?>
 
     <div id="wpbody-content">
@@ -57,7 +59,6 @@ function show_update_partner( $partner, $post, $errors = null ) {
                         </th>
                         <td>
                             <input name="url"
-                                   type="url"
                                    id="url"
                                    value="<?= $url ?>"
                                    class="regular-text">
@@ -105,14 +106,25 @@ function show_update_partner( $partner, $post, $errors = null ) {
 
                     <tr>
                         <th scope="row">
+                            <label for="link">Special link template</label>
+                        </th>
+                        <td>
+                            <input name="link"
+                                   id="link"
+                                   value="<?= $link ?>"
+                                   class="regular-text">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
                             <label for="partner_logo">Partner's logo URL</label>
                         </th>
                         <td>
                             <input name="partner_logo"
                                    type="numder"
                                    id="partner_logo"
-                                   value="<?php if ( $post )
-			                           echo $post['partner_logo'] ?>"
+                                   value="<?= $logo ?>"
                                    class="regular-text">
                         </td>
                     </tr>

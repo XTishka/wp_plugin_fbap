@@ -237,7 +237,7 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                         <div id="fb-group-form-create" class="schedule-form-create mt-9 bg-gray-100 p-5">
                             <h2>Add new facebook publication to shedule</h2>
                             <form method="POST" action="">
-                                <input type="hidden" name="action" value="create_publication">
+                                <input type="hidden" name="action" value="create_publication_schedule">
                                 <input type="hidden" name="ad_id" value="<?= $ad->id ?>">
 
                                 <div class="flex justify-between align-center">

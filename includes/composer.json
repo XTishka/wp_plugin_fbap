@@ -2,6 +2,7 @@
     "require": {
         "laminas/laminas-dom": "^2.8",
         "paquettg/php-html-parser": "^3.1",
-        "rakit/validation": "^1.4"
+        "rakit/validation": "^1.4",
+        "facebook/graph-sdk": "^5.7"
     }
 }

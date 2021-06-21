@@ -11,9 +11,9 @@ use fbap\admin\repositories\AdRepository;
 class AdController {
 
 	public function index() {
-		$repository = new AdRepository();
-		$groupRepository = new GroupRepository();
-		$partnerRepository = new PartnerRepository();
+		$repository         = new AdRepository();
+		$groupRepository    = new GroupRepository();
+		$partnerRepository  = new PartnerRepository();
 		$scheduleRepository = new ScheduleRepository();
 
 		show_index_ads( $repository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository );
@@ -53,77 +53,87 @@ class AdController {
 			$publication                    = get_post( $post['post_id'] );
 			$post['post_url']               = $publication->guid;
 			$post['affiliate_link']         = $post['fbap_affiliate_url'];
+			$post['partners_special_link']  = $service->getPartnersSpecialLink( $post, $partner->id );
 			$service->connectImagesToPost( $post['post_id'], $post['images'] );
 			$service->addPostMeta( $post );
 			$repository->insertAd( $post );
 
-			$adsRepository = new AdRepository();
-			$groupRepository = new GroupRepository();
-			$partnerRepository = new PartnerRepository();
+			$adsRepository      = new AdRepository();
+			$groupRepository    = new GroupRepository();
+			$partnerRepository  = new PartnerRepository();
 			$scheduleRepository = new ScheduleRepository();
-			show_index_ads( $adsRepository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository  );
+			show_index_ads( $adsRepository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository );
 		}
 	}
 
 	public function update( $id ) {
-		$repository = new AdRepository();
-		$service = new AdService();
-		$partnersRepository = new PartnerRepository();
-		$groupsRepository = new GroupRepository();
-		$groups = $groupsRepository->getAllGroups();
+		$repository          = new AdRepository();
+		$service             = new AdService();
+		$partnersRepository  = new PartnerRepository();
+		$groupsRepository    = new GroupRepository();
+		$groups              = $groupsRepository->getAllGroups();
 		$schedulesRepository = new ScheduleRepository();
-		$filter = 'waiting';
-		if (isset($_GET['filter'])) :
-			if ($_GET['filter'] == 'waiting') $filter = 'waiting';
-			if ($_GET['filter'] == 'published') $filter = 'published';
-			if ($_GET['filter'] == 'trashed') $filter = 'trashed';
-			endif;
-		$schedules = $service->getFilteredSchedules($id, $filter);
+		$filter              = 'waiting';
+		if ( isset( $_GET['filter'] ) ) :
+			if ( $_GET['filter'] == 'waiting' ) {
+				$filter = 'waiting';
+			}
+			if ( $_GET['filter'] == 'published' ) {
+				$filter = 'published';
+			}
+			if ( $_GET['filter'] == 'trashed' ) {
+				$filter = 'trashed';
+			}
+		endif;
+		$schedules = $service->getFilteredSchedules( $id, $filter );
 
-		$ad = $repository->getAdByID( $id );
-		$ad->partnersLogo = $partnersRepository->getPartnersLogo($id);
-		if ($_POST and $_POST['action'] == 'update_post') {
-			$service->updatePost($ad->post_id, $_POST);
-			$service->updatePostPrice($ad->post_id, $_POST['fbap_post_price']);
-			$repository->updateAd($id, $_POST);
+		$ad               = $repository->getAdByID( $id );
+		$ad->partnersLogo = $partnersRepository->getPartnersLogo( $id );
+		if ( $_POST and $_POST['action'] == 'update_post' ) {
+			$service->updatePost( $ad->post_id, $_POST );
+			$service->updatePostPrice( $ad->post_id, $_POST['fbap_post_price'] );
+			$repository->updateAd( $id, $_POST );
 			$ad = $repository->getAdByID( $id );
 		}
 
-		if ($_POST and $_POST['action'] == 'create_publication') {
-			$schedulesRepository->insertSchedule($_POST);
-			$schedules = $service->getFilteredSchedules($id, $filter);
+		if ( $_POST and $_POST['action'] == 'create_publication_schedule' ) {
+			$schedulesRepository->insertSchedule( $_POST );
+			$schedules = $service->getFilteredSchedules( $id, $filter );
+			$service->createCronTask(
+				$schedulesRepository->getLastSchedule()->id,
+				$schedulesRepository->getLastSchedule()->publication_time
+			);
 		}
 
-		if ($_POST and $_POST['action'] == 'update_publication_schedule') {
-			$schedulesRepository->updateSchedule($_POST);
-			$schedules = $service->getFilteredSchedules($id, $filter);
+		if ( $_POST and $_POST['action'] == 'update_publication_schedule' ) {
+			$schedulesRepository->updateSchedule( $_POST );
+			$schedules = $service->getFilteredSchedules( $id, $filter );
 		}
 
-		if (isset($_GET['trash'])) {
-			$schedulesRepository->trashSchedule($_GET['trash']);
-			$schedules = $service->getFilteredSchedules($id, $filter);
+		if ( isset( $_GET['trash'] ) ) {
+			$schedulesRepository->trashSchedule( $_GET['trash'] );
+			$schedules = $service->getFilteredSchedules( $id, $filter );
 		}
 
-		if ($_POST and $_POST['action'] == 'delete_ad') {
-
-			$service->deletePost($ad->post_id);
-			$service->deleteImagesFromMedia($ad);
-			$schedules = $schedulesRepository->getAllAdsSchedulesWithTrashed($ad->id);
-			foreach ($schedules as $schedule) {
-				$schedulesRepository->deleteSchedule($schedule->id);
+		if ( $_POST and $_POST['action'] == 'delete_ad' ) {
+			$service->deletePost( $ad->post_id );
+			$service->deleteImagesFromMedia( $ad );
+			$schedules = $schedulesRepository->getAllAdsSchedulesWithTrashed( $ad->id );
+			foreach ( $schedules as $schedule ) {
+				$schedulesRepository->deleteSchedule( $schedule->id );
 			}
-			$repository->trashAd($ad->id);
+			$repository->trashAd( $ad->id );
 		}
 
-		$post = get_post($ad->post_id);
-		if ($post) {
+		$post = get_post( $ad->post_id );
+		if ( $post ) {
 			show_update_ads( $ad, $post, $groups, $schedules );
 		} else {
-			$adsRepository = new AdRepository();
-			$groupRepository = new GroupRepository();
-			$partnerRepository = new PartnerRepository();
+			$adsRepository      = new AdRepository();
+			$groupRepository    = new GroupRepository();
+			$partnerRepository  = new PartnerRepository();
 			$scheduleRepository = new ScheduleRepository();
-			show_index_ads( $adsRepository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository  );
+			show_index_ads( $adsRepository->getAllAds(), $groupRepository, $partnerRepository, $scheduleRepository );
 		}
 	}
 }

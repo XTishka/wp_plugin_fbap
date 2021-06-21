@@ -52,8 +52,8 @@ function show_create_partner( $post, $errors = null ) { ?>
                         </th>
                         <td>
                             <input name="url"
-                                   type="url"
                                    id="url"
+                                   type="url"
                                    value="<?php if ( $post )
 						               echo $post['url'] ?>"
                                    class="regular-text">
@@ -98,6 +98,19 @@ function show_create_partner( $post, $errors = null ) { ?>
                                    id="program_id"
                                    value="<?php if ( $post )
 						               echo $post['program_id'] ?>"
+                                   class="regular-text">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            <label for="program_id">Special link template</label>
+                        </th>
+                        <td>
+                            <input name="link"
+                                   id="link"
+                                   value="<?php if ( $post )
+			                           echo $post['link'] ?>"
                                    class="regular-text">
                         </td>
                     </tr>

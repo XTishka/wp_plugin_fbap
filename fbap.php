@@ -75,6 +75,3 @@ function run_fbap() {
 
 }
 run_fbap();
-
-
-

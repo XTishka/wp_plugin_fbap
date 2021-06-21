@@ -32,6 +32,12 @@ class AdRepository {
 		return $result[0];
 	}
 
+	public function getAdByPostId( $post_id ) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `post_id` = $post_id" );
+
+		return $result[0];
+	}
+
 	public function getLastAd() {
 		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL ORDER BY `id` DESC LIMIT 1" );
 
@@ -42,19 +48,20 @@ class AdRepository {
 		return $this->wpdb->insert(
 			$this->db_table,
 			[
-				'title'          => $post['fbap_post_title'],
-				'description'    => $post['fbap_post_description'],
-				'price'          => $post['fbap_post_price'],
-				'partner_id'     => $post['affiliate_partner_id'],
-				'partner_name'   => $post['affiliate_partner_name'],
-				'affiliate_link' => $post['affiliate_link'],
-				'images'         => json_encode( $post['images'] ),
-				'post_id'        => $post['post_id'],
-				'post_url'       => $post['post_url'],
-				'clicks'         => 0,
-				'created_at'     => current_time( 'mysql' ),
-				'updated_at'     => current_time( 'mysql' ),
-				'deleted_at'     => null,
+				'title'                 => $post['fbap_post_title'],
+				'description'           => $post['fbap_post_description'],
+				'price'                 => $post['fbap_post_price'],
+				'partner_id'            => $post['affiliate_partner_id'],
+				'partner_name'          => $post['affiliate_partner_name'],
+				'affiliate_link'        => $post['affiliate_link'],
+				'partners_special_link' => $post['partners_special_link'],
+				'images'                => json_encode( $post['images'] ),
+				'post_id'               => $post['post_id'],
+				'post_url'              => $post['post_url'],
+				'clicks'                => 0,
+				'created_at'            => current_time( 'mysql' ),
+				'updated_at'            => current_time( 'mysql' ),
+				'deleted_at'            => null,
 			]
 		);
 	}
@@ -67,6 +74,16 @@ class AdRepository {
 				'description' => $post['fbap_post_description'],
 				'price'       => $post['fbap_post_price'],
 				'updated_at'  => current_time( 'mysql' ),
+			],
+			[ 'id' => $id ]
+		);
+	}
+
+	public function updateAdClicks( $id, $clicks ) {
+		$this->wpdb->update(
+			$this->db_table,
+			[
+				'clicks'       => $clicks,
 			],
 			[ 'id' => $id ]
 		);

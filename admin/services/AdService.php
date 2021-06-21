@@ -5,6 +5,10 @@ namespace fbap\admin\services;
 use fbap\admin\repositories\PartnerRepository;
 use fbap\admin\repositories\ScheduleRepository;
 use PHPHtmlParser\Dom;
+use fbap\includes\FacebookApi;
+use Facebook\Facebook;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
 
 class AdService {
 
@@ -31,7 +35,7 @@ class AdService {
 	}
 
 	public function deletePost( $post_id ) {
-		wp_delete_post($post_id);
+		wp_delete_post( $post_id );
 	}
 
 	public function uploadPostImages( $post ): array {
@@ -59,9 +63,9 @@ class AdService {
 		return $this->uploadImagesFiles( $imagesData );
 	}
 
-	public function deleteImagesFromMedia($ad) {
+	public function deleteImagesFromMedia( $ad ) {
 		$images = json_decode( $ad->images );
-		foreach ($images as $image) {
+		foreach ( $images as $image ) {
 			wp_delete_attachment( $image->id );
 		}
 	}
@@ -79,6 +83,7 @@ class AdService {
 		add_post_meta( $post['post_id'], 'affiliate_url', $post['fbap_affiliate_url'] );
 		add_post_meta( $post['post_id'], 'price', $post['fbap_post_price'] );
 		add_post_meta( $post['post_id'], 'affiliate_partner', $post['affiliate_partner_name'] );
+		add_post_meta( $post['post_id'], 'partners_special_link', $post['partners_special_link'] );
 	}
 
 	public function updatePostPrice( $postId, $postPrice ) {
@@ -86,6 +91,13 @@ class AdService {
 	}
 
 	public function parse( $url ) {
+		$data = false;
+		if (stripos($url, 'luksushuse.dk') !== false) $data = $this->parseLuksushuse($url);
+		if (stripos($url, 'dancenter.dk') !== false) $data = $this->parseDancenter($url);
+		return $data;
+	}
+
+	public function parseLuksushuse( $url ) {
 		$dom = new Dom;
 		$dom->loadFromUrl( $url );
 
@@ -110,6 +122,44 @@ class AdService {
 		$imageElements = $dom->find( 'a.fresco' );
 		foreach ( $imageElements as $image ) {
 			$images[] = $image->getAttribute( 'href' );
+		}
+		$data['images'] = $images;
+
+		$data['url'] = $url;
+
+		return $data;
+	}
+
+	public function parseDancenter( $url ) {
+		$dom = new Dom;
+		$dom->loadFromUrl( $url );
+
+		$images = [];
+
+		$titleElement = $dom->find( '#VhPageHeaderLinkDesktop a' );
+		$data['title'] = '';
+		foreach ($titleElement as $key => $content)
+		{
+			$data['title'] .= $content->text . ', ';
+		}
+		$data['title'] = substr($data['title'], 0, -2);
+
+		$priceElemenent = $dom->find( '#VhPageHeaderLinkDesktop a' );
+		if ( $priceElemenent ) {
+			$data['price'] = $priceElemenent->text;
+		}
+		$data['price'] = '';
+
+		$descriptionElement = $dom->find( 'div#VhDescription p' );
+		if ( $descriptionElement ) {
+			$data['description'] = $descriptionElement->text;
+			$data['excerpt']     = mb_strimwidth( $data['description'], 0, 200 );
+		}
+
+		$imageElements = $dom->find( '.Vh7ImagesList' );
+		foreach ( $imageElements as $image ) {
+//			$images[] = $image->getAttribute( 'href' );
+			echo $image->getAttribute('class');
 		}
 		$data['images'] = $images;
 
@@ -192,5 +242,78 @@ class AdService {
 		}
 
 		return $schedules;
+	}
+
+	public function createCronTask( $scheduleId, $publicationTime ) {
+		$publicationTime = strtotime( $publicationTime );
+		$leftTime        = $publicationTime - time();
+
+		add_action( 'fb_post_publication_' . $scheduleId, $this->test_service_cron() );
+		wp_schedule_single_event( time() + $leftTime, 'fb_post_publication_' . $scheduleId );
+	}
+
+	public function getPartnersSpecialLink( $post, $partnerId ) {
+		$specialLink = '';
+		$partnersRepository = new PartnerRepository();
+		$partner = $partnersRepository->getPartnerByID($partnerId)[0];
+		if ($post['affiliate_partner_name'] == 'Tradetracker.net') {
+			$specialLink = $partner->link;
+			$specialLink = str_replace('[program_id]', $partner->program_id, $specialLink);
+			$specialLink = str_replace('[partner_id]', $partner->partner_id, $specialLink);
+			$specialLink = str_replace('[relative_uri]', $post['affiliate_link'], $specialLink);
+		}
+		if ($post['affiliate_partner_name'] == 'Luksushuse.dk') {
+			$specialLink = $post['affiliate_link'] . '/' . $partner->link;
+		}
+		return $specialLink;
+	}
+
+
+	public function test_service_cron() {
+//		update_option('admin_email','takhir.berdyiev@gmail.com');
+
+//		$access_token = 'EAAQLDfablPwBAHyMpJDROu9hnZCbLLkvXrrUFFDiqyX5ZBFPUNCbDav0S2ioDKauVNpZCqyJBYYL0UR3DpaLMAd0kZAGx9p8t18NJyC7hNzXvZAMh01IHeZBd1TTEPHPtOerLceC1IuTC3R6J6ieWBBZCZClh5xNJPjZCEQF4EZBRmqZAluxRPvdEY1kNLJyvVpvjnELTu9AhjvFwZDZD';
+//		$facebookData = array();
+//		$facebookData['consumer_key'] = '1138054506714364';
+//		$facebookData['consumer_secret'] = '4421463704530436';
+//
+//		$title = 'Test post';
+//		$targetUrl = 'https://xtf.com.ua';
+//		$imgUrl = 'http://fbap.local/wp-content/uploads/2021/06/504_image_1.jpg';
+//		$description = 'Dette fantastiske poolhus med stort aktivitetsrum og eksklusivt poolområde danner de bedste rammer for en god ferie.';
+//
+//		$facebook = new FacebookApi($facebookData);
+//		$facebook->share($title, $targetUrl, $imgUrl, $description, $access_token);
+
+//		$fb = new Facebook([
+//			'app_id' => '1138054506714364',
+//			'app_secret' => '1dc957c34e798212bcfe8a212d727ce4',
+//			'default_graph_version' => 'v2.10',
+//		]);
+//
+//		$data = [
+//			'message' => 'My awesome photo upload example.',
+//			'source' => $fb->fileToUpload('http://fbap.local/wp-content/uploads/2021/06/504_image_1.jpg'),
+//		];
+//
+//		try {
+//			// Returns a `Facebook\FacebookResponse` object
+//			$response = $fb->post('/me/photos', $data, 'EAAQLDfablPwBAHyMpJDROu9hnZCbLLkvXrrUFFDiqyX5ZBFPUNCbDav0S2ioDKauVNpZCqyJBYYL0UR3DpaLMAd0kZAGx9p8t18NJyC7hNzXvZAMh01IHeZBd1TTEPHPtOerLceC1IuTC3R6J6ieWBBZCZClh5xNJPjZCEQF4EZBRmqZAluxRPvdEY1kNLJyvVpvjnELTu9AhjvFwZDZD');
+//		} catch(FacebookResponseException $e) {
+//			echo 'Graph returned an error: ' . $e->getMessage();
+//			exit;
+//		} catch(FacebookSDKException $e) {
+//			echo 'Facebook SDK returned an error: ' . $e->getMessage();
+//			exit;
+//		}
+//
+//		$graphNode = $response->getGraphNode();
+//
+//		echo 'Photo ID: ' . $graphNode['id'];
+
+	}
+
+	public function fb_login() {
+
 	}
 }

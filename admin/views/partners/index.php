@@ -15,18 +15,14 @@ function show_index_partner( $data ) {
 
             <div class="clear"></div>
 
-            <table class="wp-list-table widefat fixed striped table-view-list users mt-5">
+            <table class="wp-list-table widefat striped table-view-list users mt-5">
                 <thead>
                 <tr>
 
                     <th scope="col" id="username" class="manage-column column-username column-primary sortable desc">
                         <a href="#">
-                            <span>Company name</span>
+                            <span>Partners name</span>
                         </a>
-                    </th>
-
-                    <th scope="col" class="manage-column column-name">
-                        Partners URL
                     </th>
 
                     <th scope="col" class="manage-column column-name">
@@ -65,10 +61,6 @@ function show_index_partner( $data ) {
                             </div>
                         </td>
 
-                        <td class="name column-name" data-colname="URL">
-                            <span aria-hidden="true"><?= $partner->url ?></span>
-                        </td>
-
                         <td class="name column-name" data-colname="API">
                             <span aria-hidden="true"><?= $partner->api ?></span>
                         </td>
@@ -81,7 +73,7 @@ function show_index_partner( $data ) {
                             <span aria-hidden="true"><?= $partner->program_id ?></span>
                         </td>
 
-                        <td class="name column-name" data-colname="Special URL String">
+                        <td class="name column-name" data-colname="Special link">
                             <span aria-hidden="true"><?= $partner->link ?></span>
                         </td>
                     </tr>
@@ -98,7 +90,7 @@ function show_index_partner( $data ) {
                     </th>
 
                     <th scope="col" class="manage-column column-name">
-                        Partners URL
+                        Special URL String
                     </th>
 
                     <th scope="col" class="manage-column column-name">
@@ -111,10 +103,6 @@ function show_index_partner( $data ) {
 
                     <th scope="col" class="manage-column column-name">
                         Program ID
-                    </th>
-
-                    <th scope="col" class="manage-column column-name">
-                        Special URL String
                     </th>
                 </tr>
                 </tfoot>

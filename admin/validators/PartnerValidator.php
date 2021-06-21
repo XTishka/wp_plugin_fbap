@@ -12,9 +12,9 @@ class PartnerValidator {
 		$validation = $validator->validate( $post + $_FILES, [
 			'display_name'        => 'required',
 			'url'                 => 'required|',
-			'api'                 => '',
-			'partner_id'          => 'required|numeric',
-			'program_id'          => 'required|numeric',
+//			'api'                 => '',
+//			'partner_id'          => 'required|numeric',
+//			'program_id'          => 'required|numeric',
 		] );
 
 		return $validation;
@@ -26,9 +26,9 @@ class PartnerValidator {
 		$validation = $validator->validate( $post + $_FILES, [
 			'display_name'        => 'required',
 			'url'                 => 'required|',
-			'api'                 => '',
-			'partner_id'          => 'required|numeric',
-			'program_id'          => 'required|numeric',
+//			'api'                 => '',
+//			'partner_id'          => 'required|numeric',
+//			'program_id'          => 'required|numeric',
 		] );
 
 		return $validation;

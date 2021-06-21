@@ -30,6 +30,18 @@ class PartnerRepository {
 		return $result;
 	}
 
+	public function getPartnerByName( $name ) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `display_name` = '$name'" );
+
+		return $result[0];
+	}
+
+	public function getPartnersSpecialLink( $id ) {
+		$result = $this->wpdb->get_results( "SELECT `url` FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
+
+		return $result[0]->url;
+	}
+
 	public function getPartnersLogo($id) {
 		$result = $this->wpdb->get_results( "SELECT `logo_url` FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
 
@@ -50,7 +62,7 @@ class PartnerRepository {
 				'api'          => $post['api'],
 				'partner_id'   => $post['partner_id'],
 				'program_id'   => $post['program_id'],
-				'link'         => 'custom_link',
+				'link'         => $post['link'],
 				'logo_url'     => $post['partner_logo'],
 				'created_at'   => current_time( 'mysql' ),
 				'updated_at'   => current_time( 'mysql' ),
@@ -68,7 +80,7 @@ class PartnerRepository {
 				'api'          => $post['api'],
 				'partner_id'   => $post['partner_id'],
 				'program_id'   => $post['program_id'],
-				'link'         => 'custom_link',
+				'link'         => $post['link'],
 				'logo_url'     => $post['partner_logo'],
 				'updated_at'   => current_time( 'mysql' ),
 			],

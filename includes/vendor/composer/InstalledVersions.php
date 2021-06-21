@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '891274b062ff2168f90fcc37f5b6b9731540aa67',
+    'reference' => 'fe8ce5cc6be5fff192ff532871108bd9146aa159',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '891274b062ff2168f90fcc37f5b6b9731540aa67',
+      'reference' => 'fe8ce5cc6be5fff192ff532871108bd9146aa159',
+    ),
+    'facebook/graph-sdk' => 
+    array (
+      'pretty_version' => '5.7.0',
+      'version' => '5.7.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2d8250638b33d73e7a87add65f47fabf91f8ad9b',
     ),
     'guzzlehttp/guzzle' => 
     array (
