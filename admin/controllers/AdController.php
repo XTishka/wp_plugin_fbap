@@ -32,12 +32,11 @@ class AdController {
 			show_create_ad( $data, $partners->getAllPartners(), $groups->getAllGroups() );
 		}
 
-		if ( $post and $post['action'] == 'preview' and $post['fbap_affiliate_url'] and $post['affiliate_partner_id'] ) {
+		if ( $post and $post['action'] == 'preview' and $post['fbap_affiliate_url'] ) {
 			$url                          = $post['fbap_affiliate_url'];
 			$data['show_form']            = true;
 			$data['parser']               = $service->parse( $url );
-			$data['affiliate_partner_id'] = $post['affiliate_partner_id'];
-
+			$data['affiliate_partner_id'] = $service->getPartnerIdByUrl( $url, $partners->getAllPartners() );
 			show_create_ad( $data, $partners->getAllPartners(), $groups->getAllGroups() );
 		}
 
@@ -89,10 +88,12 @@ class AdController {
 
 		$ad               = $repository->getAdByID( $id );
 		$ad->partnersLogo = $partnersRepository->getPartnersLogo( $id );
+
 		if ( $_POST and $_POST['action'] == 'update_post' ) {
 			$service->updatePost( $ad->post_id, $_POST );
 			$service->updatePostPrice( $ad->post_id, $_POST['fbap_post_price'] );
 			$repository->updateAd( $id, $_POST );
+			$service->setPostImage( $ad );
 			$ad = $repository->getAdByID( $id );
 		}
 
@@ -111,6 +112,7 @@ class AdController {
 		}
 
 		if ( isset( $_GET['trash'] ) ) {
+			$service->removeCronTask( $schedulesRepository->getLastSchedule()->publication_time );
 			$schedulesRepository->trashSchedule( $_GET['trash'] );
 			$schedules = $service->getFilteredSchedules( $id, $filter );
 		}

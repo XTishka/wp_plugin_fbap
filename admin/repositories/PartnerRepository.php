@@ -42,6 +42,12 @@ class PartnerRepository {
 		return $result[0]->url;
 	}
 
+	public function getPartnerByUrl($url) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `url` = '$url'" );
+
+		return $result[0];
+	}
+
 	public function getPartnersLogo($id) {
 		$result = $this->wpdb->get_results( "SELECT `logo_url` FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
 

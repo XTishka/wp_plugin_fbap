@@ -6,7 +6,7 @@ function show_create_partner( $post, $errors = null ) { ?>
         <div class="wrap">
 
             <h1 class="wp-heading-inline">Affiliate partners</h1>
-            <a href="?page=fbap&tab=new-partner" class="page-title-action">Add New</a>
+<!--            <a href="?page=fbap&tab=new-partner" class="page-title-action">Add New</a>-->
 
             <hr class="wp-header-end">
 

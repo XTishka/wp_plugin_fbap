@@ -744,4 +744,20 @@
   cursor: pointer;
 }
 
+@media only screen and (max-width: 640px) {
+  .mobile-block {
+    display: block;
+  }
+  .mobile-block .w-50p {
+    width: 100%;
+  }
+  .mobile-block .preview-wrap {
+    padding: 0;
+  }
+  .mobile-block .preview-wrap .preview-box {
+    margin-top: 40px;
+    max-width: 100%;
+  }
+}
+
 /*# sourceMappingURL=fbap-admin.css.map */

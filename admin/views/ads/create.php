@@ -14,7 +14,7 @@ function show_create_ad( $data, $partners, $groups ) { ?>
 
             <div class="clear"></div>
 
-            <div class="flex">
+            <div class="flex mobile-block">
                 <div class="w-50p">
 
                     <div class="mt-5 bg-white w-full rounded">
@@ -23,20 +23,6 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                         </div>
                         <form method="POST" action="" class="p-3">
                             <input type="hidden" name="action" value="preview">
-
-                            <div class="flex align-center">
-                                <p class="font-bold w-30p">Affiliate partner:</p>
-                                <p class="w-70p">
-                                    <select name="affiliate_partner_id" id="affiliate_partner_id" class="w-full">
-										<?php foreach ( $partners as $partner ) : ?>
-											<?php $selected = $partner->id == $data['affiliate_partner_id'] ? 'selected' : ''; ?>
-                                            <option value="<?= $partner->id ?>" <?= $selected ?>>
-												<?= $partner->display_name ?>
-                                            </option>
-										<?php endforeach; ?>
-                                    </select>
-                                </p>
-                            </div>
 
                             <div class="flex align-center">
                                 <p class="font-bold w-30p">URL of affiliate ad:</p>
@@ -59,9 +45,6 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                             </div>
                             <form method="POST" action="" class="p-3">
                                 <input type="hidden" name="action" value="create_post">
-                                <input type="hidden" name="image_1" value="<?= $data['parser']['images'][0] ?>">
-                                <input type="hidden" name="image_2" value="<?= $data['parser']['images'][1] ?>">
-                                <input type="hidden" name="image_3" value="<?= $data['parser']['images'][2] ?>">
                                 <input type="hidden" name="affiliate_partner_id" value="<?= $data['affiliate_partner_id'] ?>">
                                 <input type="hidden" name="fbap_affiliate_url" value="<?= $data['parser']['url'] ?>">
 
@@ -82,7 +65,7 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                         <input name="fbap_post_price"
                                                type="text"
                                                id="fbap_post_price"
-                                               value="<?= $data['parser']['price'] ?> kr"
+                                               value="<?= $data['parser']['price'] ?>"
                                                class="regular-text w-full">
                                     </p>
                                 </div>
@@ -97,12 +80,23 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                     </p>
                                 </div>
 
+                                <div class="flex">
+                                    <p class="font-bold w-30p">Custom image:</p>
+                                    <p class="w-70p">
+                                        <input name="fbap_post_image"
+                                               type="text"
+                                               id="fbap_post_image"
+                                               value="<?= $data['parser']['images'][0] ?>"
+                                               class="regular-text w-full">
+                                    </p>
+                                </div>
+
                                 <div class="flex justify-flex-end">
                                     <input type="submit"
                                            name="submit"
                                            id="submit"
                                            class="button button-primary"
-                                           value="Publicate">
+                                           value="Publish">
                                 </div>
                             </form>
                         </div>
@@ -128,11 +122,7 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                         <span class="price"><?= $data['parser']['price'] ?></span>
                                     </h2>
                                     <p  class="description"><?= $data['parser']['excerpt'] ?> ...</p>
-                                    <img src="<?= $data['parser']['images'][0] ?>" alt="" class="w-full">
-                                    <div class="images flex">
-                                        <img src="<?= $data['parser']['images'][1] ?>" alt="" class="w-50p">
-                                        <img src="<?= $data['parser']['images'][2] ?>" alt="" class="w-50p">
-                                    </div>
+                                    <img src="<?= $data['parser']['images'][0] ?>" alt="" class="w-full image-preview">
                                 </div>
                             </div>
                         </div>

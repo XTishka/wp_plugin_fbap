@@ -33,7 +33,7 @@ class ScheduleRepository {
 	public function getScheduleByID( $id ) {
 		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
 
-		return $result;
+		return $result[0];
 	}
 
 	public function getSchedulesByAdID( $id ) {
@@ -123,5 +123,16 @@ class ScheduleRepository {
 
 	public function deleteSchedule( $id ) {
 		$this->wpdb->delete( $this->db_table, [ 'id' => $id ] );
+	}
+
+	public function updateScheduleStatus( $id, $status ) {
+		$this->wpdb->update(
+			$this->db_table,
+			[
+				'status'         => $status,
+				'updated_at'   => current_time( 'mysql' ),
+			],
+			[ 'id' => $id ]
+		);
 	}
 }

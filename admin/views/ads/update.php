@@ -5,6 +5,7 @@ use fbap\admin\repositories\GroupRepository;
 function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
 
 	<?php $groupsRepository = new GroupRepository(); ?>
+	<?php $images = json_decode( $ad->images ) ?>
 
     <div id="wpbody-content">
     <div class="wrap">
@@ -18,7 +19,7 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
 
         <div class="clear"></div>
 
-        <div class="flex">
+        <div class="flex mobile-block">
             <div class="w-50p">
 
                 <div class="mt-5 bg-white w-full" style="border: 1px solid #c3c4c7 ">
@@ -91,6 +92,17 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                             </p>
                         </div>
 
+<!--                        <div class="flex">-->
+<!--                            <p class="font-bold w-30p">Custom image:</p>-->
+<!--                            <p class="w-70p">-->
+<!--                                <input name="fbap_post_image"-->
+<!--                                       type="text"-->
+<!--                                       id="fbap_post_image"-->
+<!--                                       value="--><?//= $images->image_1->url ?><!--"-->
+<!--                                       class="regular-text w-full">-->
+<!--                            </p>-->
+<!--                        </div>-->
+
                         <div class="flex justify-flex-end">
                             <input type="submit"
                                    name="submit"
@@ -137,7 +149,6 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                                 <th class="schedule-group-title">Facebook Group</th>
                                 <th class="schedule-published-at">Published at</th>
                                 <th class="schedule-status">Status</th>
-                                <th class="schedule-clicks" style="text-align: center">Clicks</th>
                             </tr>
                             </thead>
 
@@ -161,8 +172,8 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
 													<?php $trashLink = home_url() . '/wp-admin/admin.php?page=fbap&tab=update-ad&id=' . $ad->id . '&filter=waiting&trash=' . $schedule->id; ?>
 
                                                     <?php if ( $filterSelected == 'waiting' ) : ?>
-                                                    <span id="edit_schedule_button_<?= $counter ?>"
-                                                          class="edit-schedule">Edit | </span>
+<!--                                                    <span id="edit_schedule_button_--><?//= $counter ?><!--"-->
+<!--                                                          class="edit-schedule">Edit | </span>-->
                                                     <?php endif; ?>
                                                     <span class="trash"><a href="<?= $trashLink ?>">Trash</a></span>
                                                 </div>
@@ -208,10 +219,6 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                                                 </div>
 											<?php endif; ?>
                                         </td>
-
-                                        <td style="text-align: center">
-											<?= $schedule->clicks ?>
-                                        </td>
                                     </form>
                                 </tr>
 
@@ -227,7 +234,6 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                                 <th class="schedule-group-title">Facebook Group</th>
                                 <th class="schedule-published-at">Published at</th>
                                 <th class="schedule-status">Status</th>
-                                <th class="schedule-clicks">Clicks</th>
                             </tr>
                             </tfoot>
 
@@ -290,7 +296,7 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                             <div class="flex align-center">
                                 <p class="font-bold w-30p">Delete schedule publications<br> from database:</p>
                                 <p class="w-70p">
-                                    <input type="checkbox" id="ad-schedules" name="ad-schedules">
+                                    <input type="checkbox" id="ad-schedules" name="ad-schedules"  checked>
                                 </p>
                             </div>
 
@@ -308,7 +314,6 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
 
             <div class="w-50p flex justify-center preview-wrap">
 				<?php $description = mb_strimwidth( $ad->description, 0, 200 ); ?>
-				<?php $images = json_decode( $ad->images ) ?>
 
                 <div class="preview-box">
                     <div class="bg-white">
@@ -329,11 +334,7 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
 
                             <p class="description"><?= substr( $description, 0, strrpos( $description, ' ' ) ); ?>
                                 ...</p>
-                            <img src="<?= $images->image_1->url ?>" alt="" class="w-full">
-                            <div class="images flex">
-                                <img src="<?= $images->image_2->url ?>" alt="" class="w-50p">
-                                <img src="<?= $images->image_3->url ?>" alt="" class="w-50p">
-                            </div>
+                            <img src="<?= $images->image_1->url ?>" alt="" class="w-full image-preview">
                         </div>
                     </div>
 
@@ -342,7 +343,7 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
                         <h2>Post preview</h2>
                         <div class="preview-post">
                             <div class="post-image">
-                                <img src="<?= $images->image_1->url ?>" alt="">
+                                <img src="<?= $images->image_1->url ?>" alt="" class="image-preview">
                             </div>
                             <div class="post-content">
                                 <div class="topper">

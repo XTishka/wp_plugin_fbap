@@ -46,30 +46,30 @@ function show_create_group( $post, $errors = null ) { ?>
 						</td>
 					</tr>
 
-					<tr>
-						<th scope="row">
-							<label for="url">Partners URL</label>
-						</th>
-						<td>
-							<input name="url"
-							       type="url"
-							       id="url"
-							       value="<?php if ( $post )
-								       echo $post['url'] ?>"
-							       class="regular-text">
-						</td>
-					</tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="members_qty">Group members</label>
+                        </th>
+                        <td>
+                            <input name="members_qty"
+                                   type="members_qty"
+                                   id="members_qty"
+                                   value="<?php if ( $post )
+								       echo $post['members_qty'] ?>"
+                                   class="regular-text">
+                        </td>
+                    </tr>
 
 					<tr>
 						<th scope="row">
-							<label for="api">API</label>
+							<label for="api">Group ID</label>
 						</th>
 						<td>
-							<input name="api"
+							<input name="fb_group_id"
 							       type="text"
 							       id="api"
 							       value="<?php if ( $post )
-								       echo $post['api'] ?>"
+								       echo $post['fb_group_id'] ?>"
 							       class="regular-text">
 						</td>
 					</tr>

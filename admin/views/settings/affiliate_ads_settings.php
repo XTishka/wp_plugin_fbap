@@ -1,5 +1,5 @@
 <?php
 
-function affiliate_ads_settings() {
+function affiliate_ads_settings() { ?>
 
-}
+<?php }

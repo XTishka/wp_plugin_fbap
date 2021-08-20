@@ -30,6 +30,12 @@ class GroupRepository {
 		return $result;
 	}
 
+	public function getGroupByFbGroupId( $groupId ) {
+		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `fb_group_id` = '$groupId'" );
+
+		return $result[0];
+	}
+
 	public function getGroupName( $id ) {
 		$result = $this->wpdb->get_results( "SELECT * FROM $this->db_table WHERE `deleted_at` IS NULL AND `id` = $id" );
 
@@ -41,8 +47,8 @@ class GroupRepository {
 			$this->db_table,
 			[
 				'display_name' => $post['display_name'],
-				'url'          => $post['url'],
-				'api'          => $post['api'],
+				'fb_group_id'  => $post['fb_group_id'],
+				'members_qty'  => $post['members_qty'],
 				'created_at'   => current_time( 'mysql' ),
 				'updated_at'   => current_time( 'mysql' ),
 				'deleted_at'   => null,
@@ -55,8 +61,8 @@ class GroupRepository {
 			$this->db_table,
 			[
 				'display_name' => $post['display_name'],
-				'url'          => $post['url'],
-				'api'          => $post['api'],
+				'fb_group_id'  => $post['fb_group_id'],
+				'members_qty'  => $post['members_qty'],
 				'updated_at'   => current_time( 'mysql' ),
 			],
 			[ 'id' => $id ]

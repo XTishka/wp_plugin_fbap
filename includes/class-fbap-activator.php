@@ -73,8 +73,8 @@ function init_db_groups() {
 		$sql = "CREATE TABLE $groupsTable (
 		  id mediumint(9) NOT NULL AUTO_INCREMENT,
 		  display_name varchar (255) NOT NULL,
-		  url tinytext NOT NULL,
-		  api varchar (255) NOT NULL,
+		  fb_group_id varchar (255) NOT NULL,
+		  members_qty varchar (255) NOT NULL,
 		  created_at datetime NOT NULL,
 		  updated_at datetime NOT NULL,
 		  deleted_at datetime NULL,
@@ -90,7 +90,7 @@ function init_db_groups() {
 
 function init_db_ads() {
 	global $table_prefix, $wpdb;
-	$adsTable      = $table_prefix . 'fbap_ads';
+	$adsTable = $table_prefix . 'fbap_ads';
 
 	if ( $wpdb->get_var( "show tables like '$adsTable'" ) != $adsTable ) {
 
@@ -125,7 +125,7 @@ function init_db_ads() {
 
 function init_db_fb_schedule() {
 	global $table_prefix, $wpdb;
-	$adsTable      = $table_prefix . 'fbap_fb_schedule';
+	$adsTable = $table_prefix . 'fbap_fb_schedule';
 
 	if ( $wpdb->get_var( "show tables like '$adsTable'" ) != $adsTable ) {
 
@@ -154,64 +154,132 @@ function init_db_fb_schedule() {
 function insertDefaultPartners() {
 	global $table_prefix, $wpdb;
 	$partnersTable = $table_prefix . 'fbap_partners';
+	$repository    = new \fbap\admin\repositories\PartnerRepository();
 
-	$wpdb->insert(
-		$partnersTable,
-		[
-			'display_name' => 'Tradetracker.net',
-			'url'          => 'https://tradetracker.com',
-			'api'          => 'ieekf##1131239ikdkekkd',
-			'partner_id'   => '353513',
-			'program_id'   => '17613',
-			'link'         => 'https://tc.tradetracker.net/?c=[program_id]&m=12&a=[partner_id]&r=Ferieboligsiden&u=[relative_uri]',
-			'logo_url'     => 'https://www.tradetracker.com/assets/tt-circles.png',
-			'created_at'   => current_time( 'mysql' ),
-			'updated_at'   => current_time( 'mysql' ),
-			'deleted_at'   => null,
-		],
-	);
+	if ( ! $repository->getPartnerByUrl( 'https://www.dancenter.dk/' ) ) {
+		$wpdb->insert(
+			$partnersTable,
+			[
+				'display_name' => 'Dancenter',
+				'url'          => 'https://www.dancenter.dk/',
+				'api'          => 'ieekf##1131239ikdkekkd',
+				'partner_id'   => '353513',
+				'program_id'   => '17613',
+				'link'         => 'https://www.dancenter.dk/tradetracker/?ag=[program_id]&tt=[partner_id]_&r=[relative_uri]',
+				'logo_url'     => 'https://www.tradetracker.com/assets/tt-circles.png',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			],
+		);
+	}
 
-	$wpdb->insert(
-		$partnersTable,
-		[
-			'display_name' => 'Luksushuse.dk',
-			'url'          => 'https://www.luksushuse.dk/',
-			'api'          => 'ieekf##1131239ikdkekkd',
-			'link'         => 'utm_source=ferieboligsiden&utm_medium=affili ate&utm_campaign=partner',
-			'logo_url'     => 'https://www.luksushuse.dk/sites/default/themes/luksushuse/logo-da.png',
-			'created_at'   => current_time( 'mysql' ),
-			'updated_at'   => current_time( 'mysql' ),
-			'deleted_at'   => null,
-		]
-	);
+	if ( ! $repository->getPartnerByUrl( 'https://www.luksushuse.dk/' ) ) {
+		$wpdb->insert(
+			$partnersTable,
+			[
+				'display_name' => 'Luksushuse.dk',
+				'url'          => 'https://www.luksushuse.dk/',
+				'api'          => 'ieekf##1131239ikdkekkd',
+				'link'         => 'utm_source=ferieboligsiden&utm_medium=affiliate&utm_campaign=partner',
+				'logo_url'     => 'https://www.luksushuse.dk/sites/default/themes/luksushuse/logo-da.png',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			]
+		);
+	}
+
+	if ( ! $repository->getPartnerByUrl( 'https://www.feriehusudlejning.dk/' ) ) {
+		$wpdb->insert(
+			$partnersTable,
+			[
+				'display_name' => 'Feriehusudlejning.dk',
+				'url'          => 'https://www.feriehusudlejning.dk/',
+				'api'          => 'ieekf##1131239ikdkekkd',
+				'link'         => 'utm_source=facebook&utm_medium=ferieboligsiden&utm_campaign=slettevej8',
+				'logo_url'     => 'https://www.luksushuse.dk/sites/default/themes/luksushuse/logo-da.png',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			]
+		);
+	}
 }
 
 function insertDefaultGroups() {
 	global $table_prefix, $wpdb;
 	$groupsTable = $table_prefix . 'fbap_groups';
+	$repository  = new \fbap\admin\repositories\GroupRepository();
 
-	$wpdb->insert(
-		$groupsTable,
-		[
-			'display_name' => 'Poolhuse/Sommerhusudlejning Danmark',
-			'url'          => 'https://www.facebook.com/groups/228972564238976',
-			'api'          => '',
-			'created_at'   => current_time( 'mysql' ),
-			'updated_at'   => current_time( 'mysql' ),
-			'deleted_at'   => null,
-		]
-	);
+	if ( ! $repository->getGroupByFbGroupId( '608446522687807' ) ) {
+		$wpdb->insert(
+			$groupsTable,
+			[
+				'display_name' => 'Sommerhuse og ferieboliger udlejes Privat',
+				'fb_group_id'  => '608446522687807',
+				'members_qty'  => '14.000 members',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			]
+		);
+	}
 
-	$wpdb->insert(
-		$groupsTable,
-		[
-			'display_name' => 'Sommerhusudlejning',
-			'url'          => 'https://www.facebook.com/groups/106307152771323',
-			'api'          => '',
-			'created_at'   => current_time( 'mysql' ),
-			'updated_at'   => current_time( 'mysql' ),
-			'deleted_at'   => null,
-		]
-	);
+	if ( ! $repository->getGroupByFbGroupId( '1673406732886462' ) ) {
+		$wpdb->insert(
+			$groupsTable,
+			[
+				'display_name' => 'Sommerhus Udlejes - Ferie - Rejser',
+				'fb_group_id'  => '1673406732886462',
+				'members_qty'  => '5.400 members',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			]
+		);
+	}
+
+	if ( ! $repository->getGroupByFbGroupId( '155600587847402' ) ) {
+		$wpdb->insert(
+			$groupsTable,
+			[
+				'display_name' => 'Sommerhusudlejning Privat',
+				'fb_group_id'  => '155600587847402',
+				'members_qty'  => '7.500 members',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			]
+		);
+	}
+
+	if ( ! $repository->getGroupByFbGroupId( '228972564238976' ) ) {
+		$wpdb->insert(
+			$groupsTable,
+			[
+				'display_name' => 'Poolhuse/Sommerhusudlejning Danmark',
+				'fb_group_id'  => '228972564238976',
+				'members_qty'  => '12.400 members',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			]
+		);
+	}
+
+	if ( ! $repository->getGroupByFbGroupId( '106307152771323' ) ) {
+		$wpdb->insert(
+			$groupsTable,
+			[
+				'display_name' => 'Sommerhusudlejning',
+				'fb_group_id'  => '106307152771323',
+				'members_qty'  => '44.800 members',
+				'created_at'   => current_time( 'mysql' ),
+				'updated_at'   => current_time( 'mysql' ),
+				'deleted_at'   => null,
+			]
+		);
+	}
 }
 

@@ -65,4 +65,8 @@ function fbap_routing() { ?>
 		$controller = new GroupController();
 		$controller->trash($id);
 	}
+
+	if ( $tab == 'settings') {
+		fbpa_settings();
+	}
 }

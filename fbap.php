@@ -74,4 +74,5 @@ function run_fbap() {
 	$plugin->run();
 
 }
+
 run_fbap();

@@ -5,7 +5,8 @@ $(function () {
 	getEditedPostTitle();
 	getEditedPostPrice();
 	getEditedPostDescription();
-	toggleScheduleForm();
+	getEditedPostImage();
+	// toggleScheduleForm();
 	toggleBlocks();
 });
 
@@ -33,6 +34,16 @@ function getEditedPostDescription() {
 
 	postDescription.on('input', function() {
 		postPreviewDescription.text($(this).val().substring(0, 200) + '...');
+	});
+}
+
+function getEditedPostImage() {
+	let postImage = $('#fbap_post_image');
+	let postPreviewImage = $('.image-preview');
+
+	postImage.on('input', function() {
+		console.log('test');
+		postPreviewImage.attr('src', postImage.val());
 	});
 }
 

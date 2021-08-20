@@ -14,14 +14,14 @@ function show_update_partner( $partner, $post, $errors = null ) {
         <div class="wrap">
 
             <h1 class="wp-heading-inline">Affiliate partners</h1>
-            <a href="?page=fbap&tab=new-partner" class="page-title-action">Add New</a>
+<!--            <a href="?page=fbap&tab=new-partner" class="page-title-action">Add New</a>-->
 
             <hr class="wp-header-end">
 
 			<?php fbap_tabs_menu( 'partners' ) ?>
 
             <div class="clear"></div>
-            <h1>Create new partner</h1>
+            <h1>Update partner's details</h1>
 
 			<?php if ( $post and $errors != null ) : ?>
 
@@ -61,7 +61,7 @@ function show_update_partner( $partner, $post, $errors = null ) {
                             <input name="url"
                                    id="url"
                                    value="<?= $url ?>"
-                                   class="regular-text">
+                                   class="regular-text" readonly >
                         </td>
                     </tr>
 

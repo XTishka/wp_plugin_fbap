@@ -7,7 +7,6 @@ function show_index_partner( $data ) {
         <div class="wrap">
 
             <h1 class="wp-heading-inline">Affiliate partners</h1>
-            <a href="?page=fbap&tab=create-partner" class="page-title-action">Add New</a>
 
             <hr class="wp-header-end">
 
@@ -57,7 +56,7 @@ function show_index_partner( $data ) {
                             <br>
                             <div class="row-actions">
                                 <span class="edit"> <a href="?page=fbap&tab=update-partner&id=<?= $partner->id ?>"> Edit </a> | </span>
-                                <span class="trash"><a href="?page=fbap&tab=trash-partner&id=<?= $partner->id ?>" class="submitdelete">Trash</a></span>
+<!--                                <span class="trash"><a href="?page=fbap&tab=trash-partner&id=--><?//= $partner->id ?><!--" class="submitdelete">Trash</a></span>-->
                             </div>
                         </td>
 

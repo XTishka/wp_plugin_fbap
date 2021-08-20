@@ -142,4 +142,10 @@ class FBAP_Admin {
 			30
 		);
 	}
-}
+
+	public function register_fbap_options() {
+		register_setting( 'fbap-settings-group', 'fbap_app_id' );
+		register_setting( 'fbap-settings-group', 'fbap_app_secret' );
+		register_setting( 'fbap-settings-group', 'fbap_app_token' );
+	}
+ }

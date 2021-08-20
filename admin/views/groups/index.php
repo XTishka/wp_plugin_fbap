@@ -25,12 +25,12 @@ function show_index_group( $data ) {
 						</a>
 					</th>
 
-					<th scope="col" class="manage-column column-name">
-						URL
-					</th>
+                    <th scope="col" class="manage-column column-name">
+                        Members
+                    </th>
 
 					<th scope="col" class="manage-column column-name">
-						API
+						Group ID
 					</th>
 				</tr>
 				</thead>
@@ -53,12 +53,12 @@ function show_index_group( $data ) {
 							</div>
 						</td>
 
-						<td class="name column-name" data-colname="URL">
-							<span aria-hidden="true"><?= $group->url ?></span>
-						</td>
+                        <td class="name column-name" data-colname="URL">
+                            <span aria-hidden="true"><?= $group->members_qty ?></span>
+                        </td>
 
 						<td class="name column-name" data-colname="API">
-							<span aria-hidden="true"><?= $group->api ?></span>
+							<span aria-hidden="true"><?= $group->fb_group_id ?></span>
 						</td>
 					</tr>
 				<?php endforeach; ?>
@@ -66,20 +66,19 @@ function show_index_group( $data ) {
 
 				<tfoot>
 				<tr>
+                    <th scope="col" id="username" class="manage-column column-username column-primary sortable desc">
+                        <a href="#">
+                            <span>Facebook Group</span>
+                        </a>
+                    </th>
 
-					<th scope="col" id="username" class="manage-column column-username column-primary sortable desc">
-						<a href="#">
-							<span>Company name</span>
-						</a>
-					</th>
+                    <th scope="col" class="manage-column column-name">
+                        Members
+                    </th>
 
-					<th scope="col" class="manage-column column-name">
-						Partners URL
-					</th>
-
-					<th scope="col" class="manage-column column-name">
-						API
-					</th>
+                    <th scope="col" class="manage-column column-name">
+                        Group ID
+                    </th>
 				</tr>
 				</tfoot>
 
