@@ -112,7 +112,7 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                         <input name="fbap_tt_reference"
                                                type="text"
                                                id="fbap_tt_reference"
-                                               value="<?= $data['parser']['tradetracker_reference'] ?>"
+                                               value="<?= $data['parser']['item_nr'] ?>"
                                                class="regular-text w-full">
                                     </p>
                                 </div>

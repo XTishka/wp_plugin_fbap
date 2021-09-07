@@ -192,13 +192,6 @@ class AdService {
 			$data['item_nr'] = $nrElement->text;
 		}
 
-		$soegElements = $dom->find( '#block-system-main-menu li.collapsed div.menu-attach-block-wrapper' )[0];
-		if ( $soegElements ) {
-			$data['item_nr'] = $nrElement->text;
-		}
-
-		$data['tradetracker_reference'] = $this->getTradeTrackerReference('luksushuse', $url, $data['item_nr']);
-
 		return $data;
 	}
 
@@ -369,22 +362,5 @@ class AdService {
 		}
 
 		return $specialLink;
-	}
-
-	public function getTradeTrackerReference($source, $url, $itemNr) {
-		$reference = '';
-
-		if ($source === 'luksushuse') {
-			$soegData = ['nordjylland', 'vestjylland', 'limfjorden', 'oestjylland', 'sydjylland', 'fyn-og-oeer', 'nordsjaelland', 'lolland-falster-moen', 'bornholm', 'sverige', 'tyskland'];
-			$position = strpos($url, $itemNr);
-			$reference = substr($url, 0, $position);
-			$reference = str_replace( 'https://www.luksushuse.dk/soeg/', '', $reference );
-			foreach ($soegData as $soeg) {
-				$reference = str_replace($soeg, '', $reference);
-				$reference = str_replace('/', '', $reference);
-			}
-		}
-
-		return $reference;
 	}
 }
