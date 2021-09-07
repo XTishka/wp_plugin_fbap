@@ -98,7 +98,7 @@ function show_update_ads( $ad = null, $post, $groups, $schedules ) { ?>
 <!--                                <input name="fbap_post_image"-->
 <!--                                       type="text"-->
 <!--                                       id="fbap_post_image"-->
-<!--                                       value="--><?//= $images->image_1->url ?><!--"-->
+<!--                                       value="--><?php //echo $images->image_1->url ?><!--"-->
 <!--                                       class="regular-text w-full">-->
 <!--                            </p>-->
 <!--                        </div>-->

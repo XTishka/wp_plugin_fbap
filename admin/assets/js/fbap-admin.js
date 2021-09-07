@@ -8,6 +8,7 @@ $(function () {
 	getEditedPostImage();
 	// toggleScheduleForm();
 	toggleBlocks();
+	toggleTradetrackerReference();
 });
 
 function getEditedPostTitle() {
@@ -42,7 +43,6 @@ function getEditedPostImage() {
 	let postPreviewImage = $('.image-preview');
 
 	postImage.on('input', function() {
-		console.log('test');
 		postPreviewImage.attr('src', postImage.val());
 	});
 }
@@ -63,5 +63,20 @@ function toggleBlocks() {
 			$('.toggled-content-' + i).toggle();
 		});
 	}
+}
+
+function toggleTradetrackerReference() {
+	let tradetrackerCheckbox = $('#tradetracker');
+	let subfield = $('.tradetrecker-field');
+
+	tradetrackerCheckbox.click(function(){
+		console.log('click...');
+		if(tradetrackerCheckbox.prop('checked')) {
+			console.log('reference checked');
+			subfield.show();
+		} else {
+			subfield.hide();
+		}
+	});
 }
 

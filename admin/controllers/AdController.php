@@ -44,7 +44,7 @@ class AdController {
 		if ( $post and $post['action'] == 'create_post' ) {
 			$service    = new AdService();
 			$repository = new AdRepository();
-
+			
 			$partner                        = $partners->getPartnerByID( $post['affiliate_partner_id'] )[0];
 			$post['post_id']                = $service->createPost( $post );
 			$post['images']                 = $service->uploadPostImages( $post );

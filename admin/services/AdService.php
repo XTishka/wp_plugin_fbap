@@ -74,10 +74,16 @@ class AdService {
 	}
 
 	public function addPostMeta( $post ) {
+		// echo '<pre>';
+		// print_r($post);
+		// echo '</pre>';
+		// die();
+
 		add_post_meta( $post['post_id'], 'affiliate_url', $post['fbap_affiliate_url'] );
 		add_post_meta( $post['post_id'], 'price', $post['fbap_post_price'] );
 		add_post_meta( $post['post_id'], 'affiliate_partner', $post['affiliate_partner_name'] );
 		add_post_meta( $post['post_id'], 'partners_special_link', $post['partners_special_link'] );
+		add_post_meta( $post['post_id'], 'tradetracker_reference', $post['fbap_tt_reference']);
 	}
 
 	public function updatePostPrice( $postId, $postPrice ) {
@@ -123,7 +129,7 @@ class AdService {
 
 		$priceElemenent = $dom->find( 'span.data-total strong' )[0];
 		if ( $priceElemenent ) {
-			$data['price'] = 'kr. ' . str_replace(' DKK', '', $priceElemenent->text);
+			$data['price'] = 'kr. ' . str_replace( ' DKK', '', $priceElemenent->text );
 		}
 
 		$descriptionElements = $dom->find( 'div.house-description-wrapper div.house-desc-content p' )[0];
@@ -153,14 +159,18 @@ class AdService {
 
 		$images = [];
 
-		$titleElement = $dom->find( 'div.item-description h1' )[0];
+		// Select post title source
+		$postTitle = 'title'; 						// Take from page <title>
+		// $postTitle = 'div.item-description h1'; 	// Take from page <h1>
+
+		$titleElement = $dom->find( $postTitle )[0];
 		if ( $titleElement ) {
 			$data['title'] = $titleElement->text;
 		}
 
 		$priceElemenent = $dom->find( 'span.price' )[0];
 		if ( $priceElemenent ) {
-			$data['price'] =  'kr. ' . $priceElemenent->text;
+			$data['price'] = 'kr. ' . $priceElemenent->text;
 		}
 
 		$descriptionElement = $dom->find( 'div.item-description div' )[0];
@@ -177,6 +187,18 @@ class AdService {
 
 		$data['url'] = $url;
 
+		$nrElement =  $dom->find( 'div.item-info-adress div.clearfix span.right-sp' )[0];
+		if ( $nrElement ) {
+			$data['item_nr'] = $nrElement->text;
+		}
+
+		$soegElements = $dom->find( '#block-system-main-menu li.collapsed div.menu-attach-block-wrapper' )[0];
+		if ( $soegElements ) {
+			$data['item_nr'] = $nrElement->text;
+		}
+
+		$data['tradetracker_reference'] = $this->getTradeTrackerReference('luksushuse', $url, $data['item_nr']);
+
 		return $data;
 	}
 
@@ -186,12 +208,24 @@ class AdService {
 
 		$images = [];
 
-		$titleElement  = $dom->find( '#VhPageHeaderLinkDesktop a' );
-		$data['title'] = '';
-		foreach ( $titleElement as $key => $content ) {
-			$data['title'] .= $content->text . ', ';
+		// Select post title source
+		$titleSource = 'dom.title';		// Take from page <title>
+		// $titleSource = 'dom.h1';		// Take from page <h1>
+
+		if ($titleSource == 'dom.h1') {
+			$titleElement  = $dom->find( '#VhPageHeaderLinkDesktop a' );
+			$data['title'] = '';
+			foreach ( $titleElement as $key => $content ) {
+				$data['title'] .= $content->text . ', ';
+			}
+			$data['title'] = substr( $data['title'], 0, - 2 );
+		} else {
+			$titleElement = $dom->find( 'title' )[0];
+			if ( $titleElement ) {
+				$data['title'] = $titleElement->text;
+			}
 		}
-		$data['title'] = substr( $data['title'], 0, - 2 );
+		
 
 		$priceElemenent = $dom->find( '#VhPageHeaderLinkDesktop a' );
 		if ( $priceElemenent ) {
@@ -298,7 +332,7 @@ class AdService {
 		wp_schedule_single_event( strtotime( $publicationTime ) - 7200, 'publish_link_to_fb_action_hook', [ $scheduleId ] );
 	}
 
-	public function removeCronTask($publicationTime) {
+	public function removeCronTask( $publicationTime ) {
 		$time = strtotime( $publicationTime ) - 7200;
 		wp_unschedule_event( strtotime( $publicationTime ) - 7200, 'publish_link_to_fb_action_hook' );
 	}
@@ -319,12 +353,38 @@ class AdService {
 			$specialLink = str_replace( '[relative_uri]', $url, $specialLink );
 		}
 		if ( $post['affiliate_partner_name'] == 'Luksushuse.dk' ) {
-			$specialLink = $post['affiliate_link'] . '/' . $partner->link;
+			if ( !isset($post[ 'tradetracker' ]) ) {
+				$specialLink = $post['affiliate_link'] . '/' . $partner->link;
+			} else {
+				$url         = str_replace( 'https://www.luksushuse.dk/', '', $post['affiliate_link'] );
+				$url         = str_replace( '=', '%3D', $url );
+				$url         = str_replace( '/?', '%2F%3F', $url );
+				$url         = str_replace( '/', '%2F', $url );
+				$url         = '%2F' . $url;
+				$specialLink = 'https://tc.tradetracker.net/?c=15302&m=12&a=392653&r=' . $post['fbap_tt_reference'] . '&u=' . $url;
+			}
 		}
 		if ( $post['affiliate_partner_name'] == 'Feriehusudlejning.dk' ) {
 			$specialLink = $post['affiliate_link'] . '/' . $partner->link;
 		}
 
 		return $specialLink;
+	}
+
+	public function getTradeTrackerReference($source, $url, $itemNr) {
+		$reference = '';
+
+		if ($source === 'luksushuse') {
+			$soegData = ['nordjylland', 'vestjylland', 'limfjorden', 'oestjylland', 'sydjylland', 'fyn-og-oeer', 'nordsjaelland', 'lolland-falster-moen', 'bornholm', 'sverige', 'tyskland'];
+			$position = strpos($url, $itemNr);
+			$reference = substr($url, 0, $position);
+			$reference = str_replace( 'https://www.luksushuse.dk/soeg/', '', $reference );
+			foreach ($soegData as $soeg) {
+				$reference = str_replace($soeg, '', $reference);
+				$reference = str_replace('/', '', $reference);
+			}
+		}
+
+		return $reference;
 	}
 }

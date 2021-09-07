@@ -32,6 +32,7 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                            id="fbap_affiliate_url"
                                            value="<?= $data['parser']['url'] ?>"
                                            class="regular-text w-full">
+
                                     <button class="button button-primary" type="submit">Get preview</button>
                                 </p>
                             </div>
@@ -45,7 +46,8 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                             </div>
                             <form method="POST" action="" class="p-3">
                                 <input type="hidden" name="action" value="create_post">
-                                <input type="hidden" name="affiliate_partner_id" value="<?= $data['affiliate_partner_id'] ?>">
+                                <input type="hidden" name="affiliate_partner_id"
+                                       value="<?= $data['affiliate_partner_id'] ?>">
                                 <input type="hidden" name="fbap_affiliate_url" value="<?= $data['parser']['url'] ?>">
 
                                 <div class="flex align-center">
@@ -91,6 +93,30 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                     </p>
                                 </div>
 
+								<?php if (strpos($data['parser']['url'], 'luksushuse.dk') !== false ) : ?>
+                                    <div class="flex align-center">
+                                        <p class="font-bold w-30p">Tradetracker:<br>
+                                            <span style="font-weight: 400; font-size: 12px;"> (only for luksushuse.dk)</span>
+                                        </p>
+                                        <p class="flex w-70p">
+                                            <input type="checkbox" id="tradetracker" name="tradetracker">
+                                        </p>
+                                    </div>
+								<?php endif; ?>
+
+                                <div class="flex tradetrecker-field" style="display: none;">
+                                    <p class="font-bold w-30p">Reference:<br>
+                                        <span style="font-weight: 400; font-size: 12px;"> (parameter: r=)</span>
+                                    </p>
+                                    <p class="w-70p">
+                                        <input name="fbap_tt_reference"
+                                               type="text"
+                                               id="fbap_tt_reference"
+                                               value="<?= $data['parser']['tradetracker_reference'] ?>"
+                                               class="regular-text w-full">
+                                    </p>
+                                </div>
+
                                 <div class="flex justify-flex-end">
                                     <input type="submit"
                                            name="submit"
@@ -121,7 +147,7 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                         <span class="title"><?= $data['parser']['title'] ?></span> /
                                         <span class="price"><?= $data['parser']['price'] ?></span>
                                     </h2>
-                                    <p  class="description"><?= $data['parser']['excerpt'] ?> ...</p>
+                                    <p class="description"><?= $data['parser']['excerpt'] ?> ...</p>
                                     <img src="<?= $data['parser']['images'][0] ?>" alt="" class="w-full image-preview">
                                 </div>
                             </div>
