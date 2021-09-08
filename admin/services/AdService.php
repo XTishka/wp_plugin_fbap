@@ -74,11 +74,6 @@ class AdService {
 	}
 
 	public function addPostMeta( $post ) {
-		// echo '<pre>';
-		// print_r($post);
-		// echo '</pre>';
-		// die();
-
 		add_post_meta( $post['post_id'], 'affiliate_url', $post['fbap_affiliate_url'] );
 		add_post_meta( $post['post_id'], 'price', $post['fbap_post_price'] );
 		add_post_meta( $post['post_id'], 'affiliate_partner', $post['affiliate_partner_name'] );
@@ -160,8 +155,8 @@ class AdService {
 		$images = [];
 
 		// Select post title source
-		$postTitle = 'title'; 						// Take from page <title>
-		// $postTitle = 'div.item-description h1'; 	// Take from page <h1>
+		// $postTitle = 'title'; 						// Take from page <title>
+		$postTitle = 'div.item-description h1'; 	// Take from page <h1>
 
 		$titleElement = $dom->find( $postTitle )[0];
 		if ( $titleElement ) {
@@ -202,8 +197,8 @@ class AdService {
 		$images = [];
 
 		// Select post title source
-		$titleSource = 'dom.title';		// Take from page <title>
-		// $titleSource = 'dom.h1';		// Take from page <h1>
+		// $titleSource = 'dom.title';		// Take from page <title>
+		$titleSource = 'dom.h1';		// Take from page <h1>
 
 		if ($titleSource == 'dom.h1') {
 			$titleElement  = $dom->find( '#VhPageHeaderLinkDesktop a' );
@@ -220,7 +215,7 @@ class AdService {
 		}
 		
 
-		$priceElemenent = $dom->find( '#VhPageHeaderLinkDesktop a' );
+		$priceElemenent = $dom->find( 'div.VhVertPricePaid' )[0];
 		if ( $priceElemenent ) {
 			$data['price'] = $priceElemenent->text;
 		}
@@ -230,6 +225,11 @@ class AdService {
 		if ( $descriptionElement ) {
 			$data['description'] = $descriptionElement->text;
 			$data['excerpt']     = mb_strimwidth( $data['description'], 0, 200 );
+		}
+
+		$nrElement =  $dom->find( 'div#Vh7HouseNumber' )[0];
+		if ( $nrElement ) {
+			$data['item_nr'] = str_replace('Husnr. ', '', $nrElement->text);
 		}
 
 		$imageElements = $dom->find( '.Vh7ImagesList' );
@@ -342,7 +342,7 @@ class AdService {
 			$url         = '%2F' . $url;
 			$specialLink = $partner->link;
 			$specialLink = str_replace( '[program_id]', $partner->program_id, $specialLink );
-			$specialLink = str_replace( '[partner_id]', $partner->partner_id, $specialLink );
+			$specialLink = str_replace( '[partner_id]', $partner->partner_id . '_' . $post['fbap_tt_reference'], $specialLink ) ;
 			$specialLink = str_replace( '[relative_uri]', $url, $specialLink );
 		}
 		if ( $post['affiliate_partner_name'] == 'Luksushuse.dk' ) {

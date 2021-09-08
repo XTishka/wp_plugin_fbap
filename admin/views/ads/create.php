@@ -104,18 +104,22 @@ function show_create_ad( $data, $partners, $groups ) { ?>
                                     </div>
 								<?php endif; ?>
 
-                                <div class="flex tradetrecker-field" style="display: none;">
-                                    <p class="font-bold w-30p">Reference:<br>
-                                        <span style="font-weight: 400; font-size: 12px;"> (parameter: r=)</span>
-                                    </p>
-                                    <p class="w-70p">
-                                        <input name="fbap_tt_reference"
-                                               type="text"
-                                               id="fbap_tt_reference"
-                                               value="<?= $data['parser']['item_nr'] ?>"
-                                               class="regular-text w-full">
-                                    </p>
-                                </div>
+
+                                <?php if (strpos($data['parser']['url'], 'feriehusudlejning.dk') === false ) : ?>
+                                    <?php $hideField =  strpos($data['parser']['url'], 'luksushuse.dk') !== false ? 'style="display: none;"' : ''  ?>
+                                    <div class="flex tradetrecker-field" <?= $hideField ?> >
+                                        <p class="font-bold w-30p">Reference:<br>
+                                            <span style="font-weight: 400; font-size: 12px;"> (parameter: r=)</span>
+                                        </p>
+                                        <p class="w-70p">
+                                            <input name="fbap_tt_reference"
+                                                type="text"
+                                                id="fbap_tt_reference"
+                                                value="<?= $data['parser']['item_nr'] ?>"
+                                                class="regular-text w-full">
+                                        </p>
+                                    </div>
+                                <?php endif; ?>
 
                                 <div class="flex justify-flex-end">
                                     <input type="submit"
