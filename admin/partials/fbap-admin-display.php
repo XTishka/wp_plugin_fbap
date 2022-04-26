@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Provide a public-facing view for the plugin
+ * Provide a admin area view for the plugin
  *
- * This file is used to markup the public-facing aspects of the plugin.
+ * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://www.facebook.com/XTishka
  * @since      1.0.0
  *
  * @package    Fbap
- * @subpackage Fbap/public/partials
+ * @subpackage Fbap/admin/partials
  */
 ?>
 

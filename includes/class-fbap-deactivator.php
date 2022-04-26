@@ -3,11 +3,11 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       http://example.com
+ * @link       https://www.facebook.com/XTishka
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Fbap
+ * @subpackage Fbap/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    Fbap
+ * @subpackage Fbap/includes
+ * @author     Takhir Berdyiev <takhir.berdyiev@gmail.com>
  */
-class Plugin_Name_Deactivator {
+class Fbap_Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -30,16 +30,7 @@ class Plugin_Name_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-		drop_plugin_tables('fbap_ads');
-		drop_plugin_tables('fbap_partners');
-		drop_plugin_tables('fbap_groups');
+
 	}
-}
 
-function drop_plugin_tables($table) {
-	global $wpdb;
-	global $table_prefix, $wpdb;
-	echo $table_prefix.$table;
-	$wpdb->query( "DROP TABLE IF EXISTS $table_prefix.$table" );
 }
-
