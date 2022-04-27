@@ -7,7 +7,7 @@
  * so that it is ready for translation.
  *
  * @link       https://www.facebook.com/XTishka
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    Fbap
  * @subpackage Fbap/includes
@@ -19,7 +19,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @since      1.0.0
+ * @since      2.0.0
  * @package    Fbap
  * @subpackage Fbap/includes
  * @author     Takhir Berdyiev <takhir.berdyiev@gmail.com>
@@ -30,7 +30,7 @@ class Fbap_i18n {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 */
 	public function load_plugin_textdomain() {
 

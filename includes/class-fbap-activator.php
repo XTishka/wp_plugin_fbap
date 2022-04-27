@@ -4,7 +4,7 @@
  * Fired during plugin activation
  *
  * @link       https://www.facebook.com/XTishka
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    Fbap
  * @subpackage Fbap/includes
@@ -15,7 +15,7 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      1.0.0
+ * @since      2.0.0
  * @package    Fbap
  * @subpackage Fbap/includes
  * @author     Takhir Berdyiev <takhir.berdyiev@gmail.com>
@@ -27,7 +27,7 @@ class Fbap_Activator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 */
 	public static function activate() {
 
