@@ -118,6 +118,9 @@ class Fbap {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-posts.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-taxonomy-partners.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-taxonomy-groups.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-dashboard.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-settings.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-wiki.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -163,7 +166,6 @@ class Fbap {
 		// Register FB Publications post type
 		$publication_posts = new Publisher_Admin_Post( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action('init', $publication_posts, 'register_publications_post_type');
-		$this->loader->add_action( 'admin_menu', $publication_posts, 'publications_admin_menu' );
 
 		// Register and setup Partners taxonomy
 		$taxonomy_partners = new Fbap_Admin_Taxonomy_Partners( $this->get_plugin_name(), $this->get_version() );
@@ -186,6 +188,19 @@ class Fbap {
 		$this->loader->add_action( 'manage_groups_custom_column', $taxonomy_groups, 'populate_custom_columns', 10, 3 );
 		$this->loader->add_action( 'admin_footer', $taxonomy_groups, 'remove_default_fields' );
 		$this->loader->add_filter( 'manage_edit-groups_columns', $taxonomy_groups, 'manage_taxonomy_columns' );
+
+		// Register and setup Dashboard
+		$plugin_dashboard = new Publisher_Admin_Dashboard( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'admin_menu', $plugin_dashboard, 'add_menu' );
+
+		// Register and setup Settings
+		$plugin_settings = new Publisher_Admin_Settings( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'admin_menu', $plugin_settings, 'add_menu' );
+		$this->loader->add_action('admin_init', $plugin_settings, 'register_options');
+
+		// Register and setup Wiki
+		$plugin_dashboard = new Publisher_Admin_Wiki( $this->get_plugin_name(), $this->get_version() );
+		$this->loader->add_action( 'admin_menu', $plugin_dashboard, 'add_menu' );
 	}
 
 	/**

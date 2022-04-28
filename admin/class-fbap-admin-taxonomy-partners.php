@@ -73,21 +73,21 @@ class Fbap_Admin_Taxonomy_Partners extends Fbap_Admin {
 
 	public function add_form_fields() { ?>
         <div class="form-field term-api-wrap">
-            <label for="api_info">API Info</label>
+            <label for="api_info"><?php echo __( 'API Info', $this->plugin_name ) ?></label>
             <input name="api_info" id="api_info" type="text" value="" size="40">
-            <p>Enter API info code here.</p>
+            <p><?php echo __( 'Enter API info code here.', $this->plugin_name ) ?></p>
         </div>
 
         <div class="form-field term-api-wrap">
-            <label for="partner_id">Partner ID</label>
+            <label for="partner_id"><?php echo __( 'Partner ID', $this->plugin_name ) ?></label>
             <input name="partner_id" id="partner_id" type="text" value="" size="40">
-            <p>Enter Partner ID here.</p>
+            <p><?php echo __( 'Enter Partner ID here.', $this->plugin_name ) ?></p>
         </div>
 
         <div class="form-field term-api-wrap">
-            <label for="program_id">Program ID</label>
+            <label for="program_id"><?php echo __( 'Program ID', $this->plugin_name ) ?></label>
             <input name="program_id" id="program_id" type="text" value="" size="40">
-            <p>Enter Program ID here.</p>
+            <p><?php echo __( 'Enter Program ID here.', $this->plugin_name ) ?></p>
         </div>
 	<?php }
 
@@ -98,29 +98,29 @@ class Fbap_Admin_Taxonomy_Partners extends Fbap_Admin {
 		$programID = get_term_meta( $term->term_id, 'program_id', true );
 		?>
         <tr class="form-field form-required term-api_info-wrap">
-            <th scope="row"><label for="api_info">API Info</label></th>
+            <th scope="row"><label for="api_info"><?php echo __( 'API Info', $this->plugin_name ) ?></label></th>
             <td>
                 <input name="api_info" id="api_info" type="text" value="<?php _e( $apiInfo ); ?>" size="40"
                        aria-required="true">
-                <p class="description">Enter API info code here.</p>
+                <p class="description"><?php echo __( 'Enter API info code here.', $this->plugin_name ) ?></p>
             </td>
         </tr>
 
         <tr class="form-field form-required term-partner_id-wrap">
-            <th scope="row"><label for="partner_id">Partner ID</label></th>
+            <th scope="row"><label for="partner_id"><?php echo __( 'Partner ID', $this->plugin_name ) ?></label></th>
             <td>
                 <input name="partner_id" id="partner_id" type="text" value="<?php _e( $partnerID ); ?>" size="40"
                        aria-required="true">
-                <p class="description">Enter Partner ID here.</p>
+                <p class="description"><?php echo __( 'Enter Partner ID here.', $this->plugin_name ) ?></p>
             </td>
         </tr>
 
         <tr class="form-field form-required term-program_id-wrap">
-            <th scope="row"><label for="program_id">Program ID</label></th>
+            <th scope="row"><label for="program_id"><?php echo __( 'Program ID', $this->plugin_name ) ?></label></th>
             <td>
                 <input name="program_id" id="program_id" type="text" value="<?php _e( $programID ); ?>" size="40"
                        aria-required="true">
-                <p class="description">Enter Program ID here.</p>
+                <p class="description"><?php echo __( 'Enter Program ID here.', $this->plugin_name ) ?></p>
             </td>
         </tr>
 	<?php }
@@ -139,8 +139,8 @@ class Fbap_Admin_Taxonomy_Partners extends Fbap_Admin {
                 jQuery(document).ready(function ($) {
                     $('#tag-description').parent().remove();
                     $('#tag-slug').parent().remove();
-                    $('#term-slug-wrap').parent().remove();
-                    $('#term-description-wrap').parent().remove();
+                    $('.term-slug-wrap').remove();
+                    $('.term-description-wrap').remove();
                 });
             </script>
 		<?php }

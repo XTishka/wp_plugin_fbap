@@ -69,15 +69,15 @@ class Fbap_Admin_Taxonomy_Groups extends Fbap_Admin {
 
 	public function add_form_fields() { ?>
         <div class="form-field term-members-qty-wrap">
-            <label for="members_qty">Members Qty</label>
+            <label for="members_qty"><?php echo __('Members Qty', $this->plugin_name) ?></label>
             <input name="members_qty" id="members_qty" type="text" value="" size="40">
-            <p>Enter group members quantity.</p>
+            <p><?php echo __('Enter group members quantity.', $this->plugin_name) ?></p>
         </div>
 
         <div class="form-field term-group-id-wrap">
-            <label for="group_id">Facebook Group ID</label>
+            <label for="group_id"><?php echo __('Facebook Group ID', $this->plugin_name) ?></label>
             <input name="group_id" id="group_id" type="text" value="" size="40">
-            <p>Enter Facebook Group ID here.</p>
+            <p><?php echo __('Enter Facebook Group ID here.', $this->plugin_name) ?></p>
         </div>
 	<?php }
 
@@ -87,20 +87,20 @@ class Fbap_Admin_Taxonomy_Groups extends Fbap_Admin {
 		$partnerID = get_term_meta( $term->term_id, 'group_id', true );
 		?>
         <tr class="form-field form-required term-members_qty_info-wrap">
-            <th scope="row"><label for="members_qty">Members Qty</label></th>
+            <th scope="row"><label for="members_qty"><?php echo __('Members Qty', $this->plugin_name) ?></label></th>
             <td>
                 <input name="members_qty" id="members_qty" type="text" value="<?php _e( $apiInfo ); ?>" size="40"
                        aria-required="true">
-                <p class="description">Enter API info code here.</p>
+                <p class="description"><?php echo __('Enter API info code here.', $this->plugin_name) ?></p>
             </td>
         </tr>
 
         <tr class="form-field form-required term-group_id-wrap">
-            <th scope="row"><label for="group_id">Facebook Group ID</label></th>
+            <th scope="row"><label for="group_id"><?php echo __('Facebook Group ID', $this->plugin_name) ?></label></th>
             <td>
                 <input name="group_id" id="group_id" type="text" value="<?php _e( $partnerID ); ?>" size="40"
                        aria-required="true">
-                <p class="description">Enter Partner ID here.</p>
+                <p class="description"><?php echo __('Enter Partner ID here.', $this->plugin_name) ?></p>
             </td>
         </tr>
 	<?php }
@@ -113,13 +113,14 @@ class Fbap_Admin_Taxonomy_Groups extends Fbap_Admin {
 	public function remove_default_fields() {
 		global $current_screen;
 
-		if ( $current_screen->id == 'edit-groups' ) { ?>
+		if ( $current_screen->id == 'edit-groups' ) {
+            ?>
             <script type="text/javascript">
                 jQuery(document).ready(function ($) {
                     $('#tag-description').parent().remove();
                     $('#tag-slug').parent().remove();
-                    $('#term-slug-wrap').parent().remove();
-                    $('#term-description-wrap').parent().remove();
+                    $('.term-slug-wrap').remove();
+                    $('.term-description-wrap').remove();
                 });
             </script>
 		<?php }
