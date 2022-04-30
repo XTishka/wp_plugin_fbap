@@ -96,8 +96,7 @@ class Fbap_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fbap-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fbap-admin.js', array( 'jquery' ), $this->version, true );
 	}
 
 }

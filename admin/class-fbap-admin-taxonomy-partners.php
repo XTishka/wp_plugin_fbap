@@ -78,6 +78,12 @@ class Fbap_Admin_Taxonomy_Partners extends Fbap_Admin {
             <p><?php echo __( 'Enter API info code here.', $this->plugin_name ) ?></p>
         </div>
 
+        <div class="form-field term-url-wrap">
+            <label for="url"><?php echo __( 'Partners URL', $this->plugin_name ) ?></label>
+            <input name="url" id="url" type="text" value="" size="40">
+            <p><?php echo __( 'Enter partners URL here.', $this->plugin_name ) ?></p>
+        </div>
+
         <div class="form-field term-api-wrap">
             <label for="partner_id"><?php echo __( 'Partner ID', $this->plugin_name ) ?></label>
             <input name="partner_id" id="partner_id" type="text" value="" size="40">
@@ -88,6 +94,22 @@ class Fbap_Admin_Taxonomy_Partners extends Fbap_Admin {
             <label for="program_id"><?php echo __( 'Program ID', $this->plugin_name ) ?></label>
             <input name="program_id" id="program_id" type="text" value="" size="40">
             <p><?php echo __( 'Enter Program ID here.', $this->plugin_name ) ?></p>
+        </div>
+
+        <div class="form-field term-link-template-wrap">
+            <label for="link_template"><?php echo __( 'Special link template', $this->plugin_name ) ?></label>
+            <input name="link_template" id="link_template" type="text" value="" size="40">
+            <p><?php echo __( 'Enter affiliate link template here.', $this->plugin_name ) ?></p>
+        </div>
+
+        <div class="form-field term-partners-logo-wrap">
+            <label for="partners_logo"><?php _e('Partners Logo', 'hero-theme'); ?></label>
+            <input type="hidden" id="partners_logo" name="partners_logo" class="custom_media_url" value="">
+            <div id="category-image-wrapper"></div>
+            <p>
+                <input type="button" class="button button-secondary ct_tax_media_button" id="ct_tax_media_button" name="ct_tax_media_button" value="<?php _e( 'Add Logo', 'hero-theme' ); ?>" />
+                <input type="button" class="button button-secondary ct_tax_media_remove" id="ct_tax_media_remove" name="ct_tax_media_remove" value="<?php _e( 'Remove Logo', 'hero-theme' ); ?>" />
+            </p>
         </div>
 	<?php }
 
@@ -144,5 +166,9 @@ class Fbap_Admin_Taxonomy_Partners extends Fbap_Admin {
                 });
             </script>
 		<?php }
+	}
+
+	public function load_media() {
+		wp_enqueue_media();
 	}
 }

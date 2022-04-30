@@ -159,13 +159,18 @@ class Fbap {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Fbap_Admin( $this->get_plugin_name(), $this->get_version() );
-
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 		// Register FB Publications post type
 		$publication_posts = new Publisher_Admin_Post( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action('init', $publication_posts, 'register_publications_post_type');
+		$this->loader->add_action('add_meta_boxes', $publication_posts, 'add_meta_box');
+		$this->loader->add_action('edit_form_after_title', $publication_posts, 'place_meta_box');
+		$this->loader->add_action('edit_form_after_title', $publication_posts, 'remove_meta_box_duplicate');
+
+		$this->loader->add_action('wp_ajax_my_user_vote', $publication_posts, 'my_user_vote');
+		$this->loader->add_action('wp_ajax_nopriv_my_user_vote', $publication_posts, 'my_must_login');
 
 		// Register and setup Partners taxonomy
 		$taxonomy_partners = new Fbap_Admin_Taxonomy_Partners( $this->get_plugin_name(), $this->get_version() );
@@ -177,6 +182,7 @@ class Fbap {
 		$this->loader->add_action( 'manage_partners_custom_column', $taxonomy_partners, 'populate_custom_columns', 10, 3 );
 		$this->loader->add_action( 'admin_footer', $taxonomy_partners, 'remove_default_fields' );
 		$this->loader->add_filter( 'manage_edit-partners_columns', $taxonomy_partners, 'manage_taxonomy_columns' );
+		$this->loader->add_action('admin_enqueue_scripts', $taxonomy_partners, 'load_media');
 
 		// Register and setup Groups taxonomy
 		$taxonomy_groups = new Fbap_Admin_Taxonomy_Groups( $this->get_plugin_name(), $this->get_version() );

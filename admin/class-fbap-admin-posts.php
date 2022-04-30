@@ -2,7 +2,7 @@
 
 class Publisher_Admin_Post extends Fbap_Admin {
 
-	private $plugin_name;
+	private string $plugin_name;
 
 	public function __construct( $plugin_name, $version ) {
 		parent::__construct( $plugin_name, $version );
@@ -54,34 +54,47 @@ class Publisher_Admin_Post extends Fbap_Admin {
 		register_post_type( 'fb-publications', $args );
 	}
 
-	public function register_facebook_groups_taxonomy() {
-		$labels = array(
-			'name'                       => _x( 'Groups', 'taxonomy general name' ),
-			'singular_name'              => _x( 'Group', 'taxonomy singular name' ),
-			'search_items'               => __( 'Search Groups' ),
-			'popular_items'              => __( 'Popular Groups' ),
-			'all_items'                  => __( 'All Groups' ),
-			'parent_item'                => null,
-			'parent_item_colon'          => null,
-			'edit_item'                  => __( 'Edit Group' ),
-			'update_item'                => __( 'Update Group' ),
-			'add_new_item'               => __( 'Add New Group' ),
-			'new_item_name'              => __( 'New Group Name' ),
-			'separate_items_with_commas' => __( 'Separate groups with commas' ),
-			'add_or_remove_items'        => __( 'Add or remove group' ),
-			'choose_from_most_used'      => __( 'Choose from the most used groups' ),
-			'menu_name'                  => __( 'Groups' ),
-			'show_in_rest'               => true,
+	public function add_meta_box() {
+		add_meta_box(
+			'fbap_parser',
+			__( 'Step 1: Parse URL', $this->plugin_name ),
+			array( $this, 'parser_meta_box_callback' ),
+			'fb-publications',
+			'advanced',
+			'high'
 		);
-
-		register_taxonomy( 'groups', 'fb-publications', array(
-			'hierarchical'      => false,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'show_in_rest'      => true,
-			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'fb-groups' ),
-		) );
 	}
+
+	public function place_meta_box() {
+		global $post, $wp_meta_boxes;
+		do_meta_boxes( get_current_screen(), 'advanced', $post );
+		unset( $wp_meta_boxes['fb-publications']['advanced'] );
+	}
+
+	public function remove_meta_box_duplicate() {
+		global $post, $wp_meta_boxes;
+		unset( $wp_meta_boxes['fb-publications']['advanced'] );
+	}
+
+	public function parser_meta_box_callback( $post, $meta ) {
+		global $current_screen; ?>
+
+        <div class="output"></div>
+
+        <div class="form-wrap">
+            <div>
+
+                <div class="form-field form-required term-parse-url-wrap">
+                    <label for="parse_url"><?php echo __( 'Insert page URL for parsing here:', $this->plugin_name ) ?></label>
+                    <input name="parse_url" id="parse_url" type="text"
+                           value="" size="40" aria-required="true">
+                </div>
+
+                <p class="submit">
+                    <button type="button" class="button button-primary submit-step-1">Parse data</button>
+                </p>
+            </div>
+        </div>
+
+	<?php }
 }
