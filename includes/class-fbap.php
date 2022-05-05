@@ -122,6 +122,7 @@ class Fbap {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-settings.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fbap-admin-wiki.php';
 
+
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.

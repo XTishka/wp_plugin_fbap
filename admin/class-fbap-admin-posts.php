@@ -32,7 +32,7 @@ class Publisher_Admin_Post extends Fbap_Admin {
 			'labels'              => $labels,
 			'supports'            => [
 				'title',
-				'editor',
+//				'editor',
 				'custom-fields',
 			],
 			'hierarchical'        => false,
@@ -79,12 +79,10 @@ class Publisher_Admin_Post extends Fbap_Admin {
 	public function parser_meta_box_callback( $post, $meta ) {
 		global $current_screen; ?>
 
-        <div class="output"></div>
-
         <div class="form-wrap">
-            <div>
+            <div style="display: flex; justify-content: space-between; align-items: last baseline;">
 
-                <div class="form-field form-required term-parse-url-wrap">
+                <div class="form-field form-required term-parse-url-wrap" style="flex: 1">
                     <label for="parse_url"><?php echo __( 'Insert page URL for parsing here:', $this->plugin_name ) ?></label>
                     <input name="parse_url" id="parse_url" type="text"
                            value="" size="40" aria-required="true">
@@ -95,6 +93,8 @@ class Publisher_Admin_Post extends Fbap_Admin {
                 </p>
             </div>
         </div>
+
+        <div class="output"></div>
 
 	<?php }
 }

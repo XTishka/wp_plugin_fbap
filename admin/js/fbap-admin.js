@@ -19,7 +19,7 @@ step_1.addEventListener('click', function () {
             }
         }
     }
-    objXMLHttpRequest.open('POST', '../wp-content/plugins/fbpublisher/admin/parsers/parser_1.php');
+    objXMLHttpRequest.open('POST', '../wp-content/plugins/fbpublisher/admin/parser/Parser.php');
     objXMLHttpRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     objXMLHttpRequest.send('url=' + step_1_url);
 });
